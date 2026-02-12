@@ -18,7 +18,7 @@
 
 # Removeable
 /devices/platform/soc/c084000.sdhci/mmc_host*     auto               auto   defaults                                         wait,voldmanaged=sdcard1:auto,encryptable=userdata
-/devices/platform/*/xhci-hcd.0.auto*              auto               auto   defaults                                         voldmanaged=usb:auto
+/devices/platform/*/xhci-hcd.*.auto*              auto               auto   defaults                                         voldmanaged=usb:auto
 
 # ZRAM
 /dev/block/zram0                         none        swap   defaults    zramsize=2147483648
