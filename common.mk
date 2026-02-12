@@ -267,6 +267,9 @@ PRODUCT_SOONG_NAMESPACES += \
     hardware/lineage/interfaces/power-libperfmgr \
     hardware/qcom-caf/common/libqti-perfd-client
 
+# Storage
+$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
+
 # Symlinks
 PRODUCT_PACKAGES += \
     firmware_wlan_mac.bin_symlink \
