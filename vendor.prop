@@ -133,6 +133,9 @@ persist.vendor.fingerprint.type=rear
 # FRP
 ro.frp.pst=/dev/block/bootdevice/by-name/frp
 
+# FUSE passthrough
+persist.sys.fuse.passthrough.enable=true
+
 # GL
 ro.hardware.egl=adreno
 ro.hardware.vulkan=adreno
