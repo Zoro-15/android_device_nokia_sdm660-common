@@ -92,14 +92,56 @@ public final class NetworkModeUtils {
         return "No SIM / Unknown";
     }
 
+    public static String getActiveLteBand(Context context) {
+        try {
+            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            if (tm != null) {
+                java.util.List<android.telephony.CellInfo> cellInfoList = tm.getAllCellInfo();
+                if (cellInfoList != null) {
+                    for (android.telephony.CellInfo cellInfo : cellInfoList) {
+                        if (cellInfo instanceof android.telephony.CellInfoLte && cellInfo.isRegistered()) {
+                            android.telephony.CellIdentityLte lte = ((android.telephony.CellInfoLte) cellInfo).getCellIdentity();
+                            int earfcn = lte.getEarfcn();
+                            if (earfcn >= 38650 && earfcn <= 39649) return "B40";
+                            if (earfcn >= 1200 && earfcn <= 1949) return "B3";
+                            if (earfcn >= 2400 && earfcn <= 2649) return "B5";
+                            if (earfcn >= 0 && earfcn <= 599) return "B1";
+                            if (earfcn >= 3350 && earfcn <= 3799) return "B8";
+                            if (earfcn >= 2750 && earfcn <= 3449) return "B7";
+                            if (earfcn >= 39650 && earfcn <= 41589) return "B41";
+                            if (earfcn >= 600 && earfcn <= 1199) return "B2";
+                            if (earfcn >= 1950 && earfcn <= 2399) return "B4";
+                            if (earfcn >= 5010 && earfcn <= 5179) return "B12";
+                            if (earfcn >= 5180 && earfcn <= 5279) return "B13";
+                            if (earfcn >= 5730 && earfcn <= 5849) return "B17";
+                            if (earfcn >= 66436 && earfcn <= 67335) return "B66";
+                        }
+                    }
+                }
+            }
+        } catch (Exception ignored) {
+        }
+
+        String savedBand = getLteBandLock(context);
+        if ("40".equals(savedBand)) return "B40";
+        if ("3".equals(savedBand)) return "B3";
+        if ("5".equals(savedBand)) return "B5";
+        return "";
+    }
+
     public static String getNetworkTypeName(Context context) {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         if (tm == null) return "Unknown";
 
         int type = tm.getNetworkType();
         switch (type) {
-            case TelephonyManager.NETWORK_TYPE_LTE:
+            case TelephonyManager.NETWORK_TYPE_LTE: {
+                String band = getActiveLteBand(context);
+                if (!band.isEmpty()) {
+                    return "4G LTE [" + band + "] (Connected)";
+                }
                 return "4G LTE (Connected)";
+            }
             case TelephonyManager.NETWORK_TYPE_HSPAP:
             case TelephonyManager.NETWORK_TYPE_HSPA:
             case TelephonyManager.NETWORK_TYPE_HSUPA:

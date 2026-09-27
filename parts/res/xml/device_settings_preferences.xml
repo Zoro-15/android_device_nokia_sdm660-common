@@ -56,6 +56,17 @@
             android:title="@string/stereo_mod_title"
             android:summary="@string/stereo_mod_summary"
             android:defaultValue="true" />
+
+        <SwitchPreference
+            android:key="auto_iem_profile"
+            android:title="@string/auto_iem_title"
+            android:summary="@string/auto_iem_summary"
+            android:defaultValue="true" />
+
+        <Preference
+            android:key="headphone_impedance_status"
+            android:title="@string/headphone_impedance_title"
+            android:summary="@string/headphone_impedance_summary" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/perf_category">

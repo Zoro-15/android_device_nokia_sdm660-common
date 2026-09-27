@@ -41,29 +41,40 @@ public class NetworkModeTileService extends TileService {
 
         int mode = NetworkModeUtils.getPreferredNetworkMode(this);
         String label;
+        String subtitle = "";
         int state;
+
+        String band = NetworkModeUtils.getActiveLteBand(this);
 
         switch (mode) {
             case NetworkModeUtils.MODE_4G_ONLY:
-                label = "4G Only";
+                label = !band.isEmpty() ? "4G Only [" + band + "]" : "4G Only";
+                subtitle = !band.isEmpty() ? "Band " + band : "LTE Forced";
                 state = Tile.STATE_ACTIVE;
                 break;
             case NetworkModeUtils.MODE_3G_ONLY:
                 label = "3G Only";
+                subtitle = "HSPA/UMTS";
                 state = Tile.STATE_ACTIVE;
                 break;
             case NetworkModeUtils.MODE_2G_ONLY:
                 label = "2G Only";
+                subtitle = "GSM/EDGE";
                 state = Tile.STATE_ACTIVE;
                 break;
             case NetworkModeUtils.MODE_AUTO:
             default:
-                label = "4G Auto";
+                label = !band.isEmpty() ? "4G Auto [" + band + "]" : "4G Auto";
+                subtitle = !band.isEmpty() ? "Band " + band : "Auto Switch";
                 state = Tile.STATE_INACTIVE;
                 break;
         }
 
         tile.setLabel(label);
+        try {
+            tile.setSubtitle(subtitle);
+        } catch (Throwable ignored) {
+        }
         tile.setState(state);
         tile.setIcon(Icon.createWithResource(this, R.drawable.ic_network_mode));
         tile.updateTile();

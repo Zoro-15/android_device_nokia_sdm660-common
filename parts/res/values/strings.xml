@@ -57,10 +57,17 @@
     <string name="vibrator_intensity_title">Haptic Feedback Intensity</string>
     <string name="vibrator_intensity_summary">Vibration motor voltage level (default: 2100mV gentle)</string>
 
-    <!-- Dual Stereo Audio -->
+    <!-- Dual Stereo Audio & IEM Hi-Fi -->
     <string name="audio_category">Audio Enhancements</string>
     <string name="stereo_mod_title">Dual Stereo Loudspeaker Mod</string>
     <string name="stereo_mod_summary">Enable earpiece speaker as secondary loudspeaker for stereo sound</string>
+    <string name="auto_iem_title">Auto IEM Low-Gain Mode</string>
+    <string name="auto_iem_summary">Automatically activates zero-hiss low-gain profile when 3.5mm IEM or headphones are connected</string>
+    <string name="headphone_impedance_title">Headphone Load Impedance</string>
+    <string name="headphone_impedance_summary">Detects connected headphone impedance load via Qualcomm MBHC audio subsystem</string>
+
+    <!-- Display Resolution -->
+    <string name="resolution_tile_label">Resolution</string>
 
     <!-- Network Mode & Band Controls -->
     <string name="network_mode_tile_label">Network Mode</string>

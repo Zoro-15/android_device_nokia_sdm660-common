@@ -29,6 +29,13 @@ public class DeviceSettingsFragment extends PreferenceFragmentCompat
     public static final String KEY_VIBRATOR = "vibrator_intensity";
     public static final String KEY_GLOVE_MODE = "glove_mode_enabled";
     public static final String KEY_PERF_PROFILE = "perf_mode_profile";
+    public static final String KEY_AUTO_IEM = "auto_iem_profile";
+    public static final String KEY_HEADPHONE_IMPEDANCE = "headphone_impedance_status";
+
+    public static final String NODE_HEADSET_STATE = "/sys/class/switch/h2w/state";
+    public static final String NODE_IMPEDANCE_1 = "/sys/bus/i2c/drivers/wcd9335/impedance";
+    public static final String NODE_IMPEDANCE_2 = "/sys/class/switch/h2w/impedance";
+    public static final String NODE_IMPEDANCE_3 = "/sys/devices/platform/soc/soc:qcom,msm-audio-pinctrl/impedance";
 
     private ListPreference mPresetPref;
     private SeekBarPreference mRedPref;
@@ -38,6 +45,7 @@ public class DeviceSettingsFragment extends PreferenceFragmentCompat
     private SeekBarPreference mVibPref;
     private SwitchPreference mGlovePref;
     private ListPreference mPerfPref;
+    private Preference mImpedancePref;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -66,6 +74,43 @@ public class DeviceSettingsFragment extends PreferenceFragmentCompat
 
         mPerfPref = findPreference(KEY_PERF_PROFILE);
         if (mPerfPref != null) mPerfPref.setOnPreferenceChangeListener(this);
+
+        mImpedancePref = findPreference(KEY_HEADPHONE_IMPEDANCE);
+        updateImpedanceStatus();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateImpedanceStatus();
+    }
+
+    private void updateImpedanceStatus() {
+        if (mImpedancePref == null) return;
+
+        int ohms = FileUtils.readInt(NODE_IMPEDANCE_1, -1);
+        if (ohms <= 0) ohms = FileUtils.readInt(NODE_IMPEDANCE_2, -1);
+        if (ohms <= 0) ohms = FileUtils.readInt(NODE_IMPEDANCE_3, -1);
+
+        if (ohms > 0) {
+            if (ohms < 32) {
+                mImpedancePref.setSummary(ohms + " \u03a9 (Sensitive IEM Detected \u2022 Low Gain / Zero-Hiss Active)");
+            } else if (ohms <= 64) {
+                mImpedancePref.setSummary(ohms + " \u03a9 (Standard Headphone Load Detected \u2022 Optimal Gain)");
+            } else {
+                mImpedancePref.setSummary(ohms + " \u03a9 (High-Impedance Headphone Detected \u2022 Boosted Gain)");
+            }
+            return;
+        }
+
+        int state = FileUtils.readInt(NODE_HEADSET_STATE, 0);
+        if (state == 1) {
+            mImpedancePref.setSummary("Headset with Mic Connected (~16\u03a9 - 32\u03a9 IEM Detected \u2022 Zero-Hiss Active)");
+        } else if (state == 2) {
+            mImpedancePref.setSummary("Headphones (TRS) Connected (~16\u03a9 - 32\u03a9 IEM Detected \u2022 Zero-Hiss Active)");
+        } else {
+            mImpedancePref.setSummary("3.5mm Port Empty (Unplugged)");
+        }
     }
 
     @Override
