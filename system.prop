@@ -14,12 +14,15 @@ persist.vendor.audio.fluence.speaker=true
 
 # Bluetooth
 bt.max.hfpclient.connections=1
-persist.bt.a2dp.aac_disable=true
+persist.bt.a2dp.aac_disable=false
 persist.sys.bt_debug_log_enable=false
 persist.sys.wbg.bt.service=false
 persist.sys.wbg.bt=btstop
-persist.vendor.btstack.a2dp_offload_cap=sbc-aptx-aptxhd-aac
+persist.vendor.bt.a2dp_offload_cap=sbc-aptx-aptxhd-aac-ldac
+persist.vendor.btstack.a2dp_offload_cap=sbc-aptx-aptxhd-aac-ldac
 persist.vendor.btstack.enable.splita2dp=true
+persist.vendor.qcom.bluetooth.enable.splita2dp=true
+ro.bluetooth.a2dp_offload.supported=true
 ro.bluetooth.emb_wp_mode=true
 ro.bluetooth.wipower=true
 vendor.bluetooth.soc=cherokee
@@ -29,15 +32,20 @@ ro.qualcomm.cabl=2
 ro.vendor.display.cabl=2
 
 # Camera
-camera.aux.packagelist=com.hmdglobal.camera2,cameratest,com.evenwell.fqc,com.tools.alt,com.siui.android.camera
+camera.aux.packagelist=com.hmdglobal.camera2,cameratest,com.evenwell.fqc,org.codeaurora.snapcam,com.android.camera,com.google.android.GoogleCamera
 camera.hal1.packagelist=com.dw.btime
 persist.camera.awbdefine=1
 persist.camera.debug_img_exif=1
-persist.camera.debug_img_exif=1
-persist.camera.privapp.list=org.codeaurora.snapcam
+persist.vendor.camera.privapp.list=org.codeaurora.snapcam,com.google.android.GoogleCamera,com.android.camera
 persist.vendor.camera.preview.ubwc=0
-persist.vendor.camera.privapp.list=org.codeaurora.snapcam
-vendor.camera.aux.packagelist=org.codeaurora.snapcam
+persist.vendor.camera.exif.model=Nokia 6.1
+vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.google.android.GoogleCamera,com.android.camera
+
+# Batch 6: Full Camera2API Level 3 + EIS
+persist.vendor.camera.HAL3.enabled=1
+persist.vendor.camera.eis.enable=1
+persist.vendor.camera.stats.test=0
+
 
 # Charging
 persist.chg.max_volt_mv=9000
@@ -83,8 +91,8 @@ persist.data.iwlan.enable=true
 persist.dbg.ims_volte_enable=1
 persist.dbg.volte_avail_ovr=1
 persist.dbg.vt_avail_ovr=1
-persist.ims.enableADBLogs=1
-persist.ims.enableDebugLogs=1
+persist.ims.enableADBLogs=0
+persist.ims.enableDebugLogs=0
 persist.rcs.supported=0
 
 # Logging
@@ -119,7 +127,7 @@ persist.data.df.dev_name=rmnet_usb0
 persist.data.tcp_rst_drop=true
 persist.radio.VT_CAM_INTERFACE=2
 persist.radio.VT_HYBRID_ENABLE=1
-persist.radio.adb_log_on=3
+persist.radio.adb_log_on=0
 persist.radio.apm_sim_not_pwdn=1
 persist.radio.flexmap_type=nw_mode
 persist.radio.oem_socket=true
@@ -172,3 +180,32 @@ ro.wifi.power.reduction=1
 
 # Zygote
 persist.device_config.runtime_native.usap_pool_enabled=true
+
+# Storage
+persist.sys.sdcardfs=force_on
+
+# Batch 3: Network & Connectivity Performance
+# TCP BBR Congestion Control & Fast Open
+net.ipv4.tcp_congestion_control=bbr
+net.ipv4.tcp_fastopen=3
+
+# Fast Dormancy & Power Save RIL
+persist.vendor.radio.data_ltd_sys_ind=1
+persist.vendor.radio.add_power_save=1
+
+# Wi-Fi Scan Interval Throttling (180s)
+wifi.supplicant_scan_interval=180
+
+# Qualcomm IMS Video & VoLTE Logging suppress
+persist.vendor.ims.disableADBLogs=1
+persist.vendor.qti.telephony.vt_cam_interface=1
+
+# Audio: Fine-Grained 30-Step Media Volume
+ro.config.media_vol_steps=30
+ro.config.vc_call_vol_steps=8
+
+# Graphics & UI: Skia RenderThread & SurfaceFlinger Smoothing
+debug.sf.latch_unsignaled=1
+renderthread.skia.reduceopstasksplitting=true
+
+

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/device_extras_title">
+
+    <PreferenceCategory android:title="@string/display_kcal_category">
+        <ListPreference
+            android:key="kcal_preset"
+            android:title="@string/kcal_preset_title"
+            android:summary="@string/kcal_preset_summary"
+            android:entries="@array/kcal_preset_entries"
+            android:entryValues="@array/kcal_preset_values"
+            android:defaultValue="default" />
+
+        <SeekBarPreference
+            android:key="kcal_red"
+            android:title="@string/kcal_red_title"
+            android:min="1"
+            android:max="256"
+            android:defaultValue="256" />
+
+        <SeekBarPreference
+            android:key="kcal_green"
+            android:title="@string/kcal_green_title"
+            android:min="1"
+            android:max="256"
+            android:defaultValue="256" />
+
+        <SeekBarPreference
+            android:key="kcal_blue"
+            android:title="@string/kcal_blue_title"
+            android:min="1"
+            android:max="256"
+            android:defaultValue="256" />
+
+        <SeekBarPreference
+            android:key="kcal_sat"
+            android:title="@string/kcal_sat_title"
+            android:min="224"
+            android:max="383"
+            android:defaultValue="256" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/haptics_category">
+        <SeekBarPreference
+            android:key="vibrator_intensity"
+            android:title="@string/vibrator_intensity_title"
+            android:summary="@string/vibrator_intensity_summary"
+            android:min="1500"
+            android:max="3100"
+            android:defaultValue="2100" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/audio_category">
+        <SwitchPreference
+            android:key="stereo_mod_enabled"
+            android:title="@string/stereo_mod_title"
+            android:summary="@string/stereo_mod_summary"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

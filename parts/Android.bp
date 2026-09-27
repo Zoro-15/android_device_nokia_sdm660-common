@@ -1,0 +1,27 @@
+//
+// Copyright (C) 2026 keepQASSA Project
+//
+// DeviceParts for Nokia 6.1 (PL2)
+//
+
+android_app {
+    name: "DeviceParts",
+
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+
+    certificate: "platform",
+    platform_apis: true,
+    privileged: true,
+
+    static_libs: [
+        "androidx.core_core",
+        "androidx.fragment_fragment",
+        "androidx.preference_preference",
+        "androidx.appcompat_appcompat",
+    ],
+
+    optimize: {
+        enabled: false,
+    },
+}

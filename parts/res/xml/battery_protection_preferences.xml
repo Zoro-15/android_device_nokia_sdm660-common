@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/battery_protection_title">
+
+    <PreferenceCategory android:title="@string/battery_telemetry_category">
+        <Preference
+            android:key="live_current"
+            android:title="@string/telemetry_current_title"
+            android:summary="Reading..." />
+        <Preference
+            android:key="live_temp"
+            android:title="@string/telemetry_temp_title"
+            android:summary="Reading..." />
+        <Preference
+            android:key="live_cycles"
+            android:title="@string/telemetry_cycles_title"
+            android:summary="Reading..." />
+    </PreferenceCategory>
+
+    <SwitchPreference
+        android:key="bypass_charging_enabled"
+        android:title="@string/bypass_charging_title"
+        android:summary="@string/bypass_charging_summary" />
+
+    <ListPreference
+        android:key="battery_stop_level"
+        android:title="@string/battery_care_title"
+        android:summary="@string/battery_care_summary"
+        android:entries="@array/stop_level_entries"
+        android:entryValues="@array/stop_level_values"
+        android:defaultValue="80" />
+
+    <!-- Static Charging Profiles: Always available regardless of Blaze switch -->
+    <ListPreference
+        android:key="charging_current_profile"
+        android:title="@string/charging_profile_title"
+        android:summary="@string/charging_profile_summary"
+        android:entries="@array/charging_profile_entries"
+        android:entryValues="@array/charging_profile_values"
+        android:defaultValue="2000000" />
+
+    <PreferenceCategory android:title="@string/blaze_engine_category">
+        <!-- Master Switch: Can be toggled OFF completely -->
+        <SwitchPreference
+            android:key="blaze_thermal_engine_enabled"
+            android:title="@string/blaze_master_switch_title"
+            android:summary="@string/blaze_master_switch_summary"
+            android:defaultValue="true" />
+
+        <SeekBarPreference
+            android:key="thermal_threshold_celsius"
+            android:title="@string/thermal_throttle_limit_title"
+            android:summary="@string/thermal_throttle_limit_summary"
+            android:dependency="blaze_thermal_engine_enabled"
+            android:min="38"
+            android:max="45"
+            android:defaultValue="42" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

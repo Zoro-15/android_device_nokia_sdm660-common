@@ -5225,3 +5225,58 @@ esac
 misc_link=$(ls -l /dev/block/bootdevice/by-name/misc)
 real_path=${misc_link##*>}
 setprop persist.vendor.mmi.misc_dev_path $real_path
+
+# 3GB Lean Profile: 2.5GB ZRAM Swappiness & Zero-Latency Page-Cluster
+echo 0 > /proc/sys/vm/page-cluster
+echo 160 > /proc/sys/vm/swappiness
+echo 100 > /proc/sys/vm/vfs_cache_pressure
+
+# Batch 2: Clamp Adreno 512 GPU idle floor to 160MHz
+if [ -d /sys/class/kgsl/kgsl-3d0 ]; then
+    echo 160000000 > /sys/class/kgsl/kgsl-3d0/devfreq/min_freq
+fi
+
+# Batch 6: Set gentle 2100mV haptic vibration default
+if [ -f /sys/class/leds/vibrator/vmax_mv ]; then
+    echo 2100 > /sys/class/leds/vibrator/vmax_mv
+fi
+
+# Performance & I/O: Optimize eMMC 5.1 sequential read-ahead cache
+if [ -f /sys/block/mmcblk0/queue/read_ahead_kb ]; then
+    echo 512 > /sys/block/mmcblk0/queue/read_ahead_kb
+fi
+
+# Storage I/O: Smooth dirty page writeback (prevents eMMC 5.1 freezes)
+echo 10 > /proc/sys/vm/dirty_ratio
+echo 5 > /proc/sys/vm/dirty_background_ratio
+echo 200 > /proc/sys/vm/dirty_expire_centisecs
+echo 500 > /proc/sys/vm/dirty_writeback_centisecs
+
+# CPU: Schedutil governor rate limits (rapid 500us ramp-up, 20ms hold)
+if [ -d /sys/devices/system/cpu/cpufreq/policy0/schedutil ]; then
+    echo 500 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/up_rate_limit_us
+    echo 20000 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/down_rate_limit_us
+fi
+if [ -d /sys/devices/system/cpu/cpufreq/policy4/schedutil ]; then
+    echo 500 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/up_rate_limit_us
+    echo 20000 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/down_rate_limit_us
+fi
+
+# Energy Conservation: Pin background cpusets strictly to Kryo Silver efficiency cores (0-3)
+if [ -d /dev/cpuset ]; then
+    echo 0-3 > /dev/cpuset/background/cpus
+    echo 0-3 > /dev/cpuset/system-background/cpus
+    echo 0-3 > /dev/cpuset/restricted/cpus
+fi
+
+# SchedTune: Optimize UI responsiveness & 60 FPS frame pacing
+if [ -d /dev/stune ]; then
+    echo 1 > /dev/stune/top-app/schedtune.prefer_idle
+    echo 5 > /dev/stune/top-app/schedtune.boost
+    echo 0 > /dev/stune/background/schedtune.boost
+    echo 0 > /dev/stune/background/schedtune.prefer_idle
+    echo 0 > /dev/stune/foreground/schedtune.boost
+fi
+
+
+

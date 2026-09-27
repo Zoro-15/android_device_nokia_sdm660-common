@@ -226,6 +226,22 @@ on early-boot
     chmod 0664 /mnt/vendor/persist/sensors/sensors_settings
 
 on boot
+    # Haptics & KCAL permissions (Batch 6)
+    chown system system /sys/class/leds/vibrator/vmax_mv
+    chmod 0660 /sys/class/leds/vibrator/vmax_mv
+    chown system system /sys/devices/platform/soc/c900000.qcom,mdss_mdp/drm/card0/sde-crtc-0/kcal_rgb
+    chown system system /sys/devices/platform/soc/c900000.qcom,mdss_mdp/drm/card0/sde-crtc-0/kcal_sat
+    chmod 0660 /sys/devices/platform/soc/c900000.qcom,mdss_mdp/drm/card0/sde-crtc-0/kcal_rgb
+    chmod 0660 /sys/devices/platform/soc/c900000.qcom,mdss_mdp/drm/card0/sde-crtc-0/kcal_sat
+
+    # Battery Charging Control permissions for DeviceParts (Batch 7)
+    chown system system /sys/class/power_supply/battery/battery_charging_enabled
+    chmod 0660 /sys/class/power_supply/battery/battery_charging_enabled
+
+    # Blaze Current Limiter permission (Batch 8)
+    chown system system /sys/class/power_supply/battery/constant_charge_current_max
+    chmod 0660 /sys/class/power_supply/battery/constant_charge_current_max
+
     chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
     chown bluetooth net_bt /sys/class/rfkill/rfkill0/type
     chown bluetooth net_bt /sys/class/rfkill/rfkill0/state
@@ -806,6 +822,10 @@ on property:persist.vendor.sys.rawdump_copy=0
 
 on property:sys.boot_completed=1
     write /dev/kmsg "Boot completed "
+    # Enable low power modes and CPU C-state power collapse
+    write /sys/module/lpm_levels/parameters/sleep_disabled 0
+    write /sys/devices/system/cpu/cpu0/cpuidle/state1/disable 0
+    write /sys/devices/system/cpu/cpu4/cpuidle/state1/disable 0
     #Reset read ahead for dm-0 and dm-1 to 512kb
     write /sys/block/dm-0/queue/read_ahead_kb 512
     write /sys/block/dm-1/queue/read_ahead_kb 512

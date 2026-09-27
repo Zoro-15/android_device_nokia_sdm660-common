@@ -2,3 +2,13 @@ allow system_app sysfs_zram:dir search;
 allow system_app sysfs_zram:file r_file_perms;
 
 binder_call(system_app, wificond)
+
+# Batch 6: Haptics & KCAL permissions for DeviceParts / Settings
+allow system_app sysfs_leds:file rw_file_perms;
+allow system_app sysfs_graphics:dir search;
+allow system_app sysfs_graphics:file rw_file_perms;
+
+# Batch 7: Battery Charging Control permissions for DeviceParts
+allow system_app sysfs_batteryinfo:dir search;
+allow system_app sysfs_batteryinfo:file rw_file_perms;
+

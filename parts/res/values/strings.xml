@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name -->
+    <string name="device_parts_name">Nokia 6.1 Features</string>
+
+    <!-- Bypass Charging Quick Settings Tile -->
+    <string name="bypass_charging_tile_label">Bypass Charging</string>
+    <string name="bypass_charging_title">Bypass Charging (AC Direct Power)</string>
+    <string name="bypass_charging_summary">Powers phone directly from charger; 0mA battery current</string>
+    <string name="bypass_charging_active">Active (0mA battery current)</string>
+    <string name="bypass_charging_inactive">Inactive (Normal charging)</string>
+
+    <!-- Blaze Turbo Quick Settings Tile -->
+    <string name="blaze_turbo_tile_label">Blaze Turbo</string>
+    <string name="blaze_turbo_tile_active">Turbo 3000mA (QC3.0)</string>
+    <string name="blaze_turbo_tile_inactive">Balanced (2000mA)</string>
+
+    <!-- Battery Care Stop Level -->
+    <string name="battery_care_title">Stop Charging Threshold (Battery Care)</string>
+    <string name="battery_care_summary">Automatically stop charging when battery reaches a healthy threshold</string>
+
+    <!-- Static Charging Speed Profiles -->
+    <string name="charging_profile_title">Charging Speed Profile</string>
+    <string name="charging_profile_summary">Set constant charging current (active even if Blaze is disabled)</string>
+
+    <!-- Blaze Engine Category & Master Switch -->
+    <string name="blaze_engine_category">Blaze Dynamic Thermal Engine</string>
+    <string name="blaze_master_switch_title">Enable Blaze Dynamic Thermal Engine</string>
+    <string name="blaze_master_switch_summary">Automatically steps down charging current to 1000mA if battery gets warm</string>
+    <string name="thermal_throttle_limit_title">Thermal Auto-Throttle Cutoff</string>
+    <string name="thermal_throttle_limit_summary">Temperature threshold to trigger cooldown current reduction</string>
+
+    <!-- Battery Protection Menu -->
+    <string name="battery_protection_title">Battery Protection &amp; Charging</string>
+
+    <!-- Device Extras Menu -->
+    <string name="device_extras_title">Device Extras (Nokia 6.1)</string>
+
+    <!-- Battery Telemetry Dashboard -->
+    <string name="battery_telemetry_category">Live Battery Status &amp; Health</string>
+    <string name="telemetry_current_title">Live Current</string>
+    <string name="telemetry_temp_title">Live Temperature</string>
+    <string name="telemetry_cycles_title">Hardware Charge Cycles</string>
+    <string name="telemetry_health_title">Battery Status</string>
+
+    <!-- KCAL Calibration -->
+    <string name="display_kcal_category">Display Color Calibration (KCAL)</string>
+    <string name="kcal_preset_title">Display Color Preset</string>
+    <string name="kcal_preset_summary">1-tap color calibration presets</string>
+    <string name="kcal_red_title">Red Multiplier</string>
+    <string name="kcal_green_title">Green Multiplier</string>
+    <string name="kcal_blue_title">Blue Multiplier</string>
+    <string name="kcal_sat_title">Color Saturation</string>
+
+    <!-- Haptic Feedback -->
+    <string name="haptics_category">Haptic Vibration</string>
+    <string name="vibrator_intensity_title">Haptic Feedback Intensity</string>
+    <string name="vibrator_intensity_summary">Vibration motor voltage level (default: 2100mV gentle)</string>
+
+    <!-- Dual Stereo Audio -->
+    <string name="audio_category">Audio Enhancements</string>
+    <string name="stereo_mod_title">Dual Stereo Loudspeaker Mod</string>
+    <string name="stereo_mod_summary">Enable earpiece speaker as secondary loudspeaker for stereo sound</string>
+</resources>

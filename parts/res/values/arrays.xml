@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Charging Speed Profiles -->
+    <string-array name="charging_profile_entries">
+        <item>Cool Trickle (500mA – Overnight Cold)</item>
+        <item>Balanced (2000mA – Normal Standard)</item>
+        <item>Blaze Turbo (3000mA – Maximum QC3.0)</item>
+    </string-array>
+    <string-array name="charging_profile_values">
+        <item>500000</item>
+        <item>2000000</item>
+        <item>3000000</item>
+    </string-array>
+
+    <!-- Battery Care Stop Level Thresholds -->
+    <string-array name="stop_level_entries">
+        <item>Off (Charge to 100%)</item>
+        <item>70%</item>
+        <item>75%</item>
+        <item>80% (Recommended)</item>
+        <item>85%</item>
+        <item>90%</item>
+    </string-array>
+    <string-array name="stop_level_values">
+        <item>0</item>
+        <item>70</item>
+        <item>75</item>
+        <item>80</item>
+        <item>85</item>
+        <item>90</item>
+    </string-array>
+
+    <!-- KCAL Display Calibration Presets -->
+    <string-array name="kcal_preset_entries">
+        <item>Default / Balanced (D65)</item>
+        <item>AMOLED Vibrant &amp; Deep Contrast</item>
+        <item>Warm Reading (Eye Care)</item>
+        <item>Cool Daylight (Crisp White)</item>
+        <item>Custom (Manual Adjustment)</item>
+    </string-array>
+    <string-array name="kcal_preset_values">
+        <item>default</item>
+        <item>vibrant</item>
+        <item>warm</item>
+        <item>cool</item>
+        <item>custom</item>
+    </string-array>
+</resources>
