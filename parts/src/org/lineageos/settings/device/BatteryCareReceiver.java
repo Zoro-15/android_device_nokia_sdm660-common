@@ -18,6 +18,10 @@ public class BatteryCareReceiver extends BroadcastReceiver {
         if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
             Log.i(TAG, "Boot completed: Initializing BatteryCareService");
             BatteryCareService.start(context);
+            String savedBand = NetworkModeUtils.getLteBandLock(context);
+            if (savedBand != null && !"0".equals(savedBand)) {
+                NetworkModeUtils.setLteBandLock(context, savedBand);
+            }
         } else if (Intent.ACTION_POWER_DISCONNECTED.equals(action)) {
             Log.i(TAG, "Power disconnected: Resetting charging enable state to normal");
             // Re-enable charging so next plug-in is clean

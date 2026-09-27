@@ -58,4 +58,16 @@
             android:defaultValue="true" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/network_settings_title">
+        <Preference
+            android:key="network_band_settings"
+            android:title="@string/network_settings_title"
+            android:summary="@string/network_settings_summary">
+            <intent
+                android:action="android.intent.action.MAIN"
+                android:targetPackage="org.lineageos.settings.device"
+                android:targetClass="org.lineageos.settings.device.NetworkSettingsActivity" />
+        </Preference>
+    </PreferenceCategory>
+
 </PreferenceScreen>

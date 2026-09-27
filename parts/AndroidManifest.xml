@@ -5,10 +5,28 @@
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
 
     <application
         android:label="@string/device_parts_name"
         android:persistent="true">
+
+        <!-- Quick Settings Tile: Network Mode (4G / 3G / 2G) -->
+        <service
+            android:name=".NetworkModeTileService"
+            android:icon="@drawable/ic_network_mode"
+            android:label="@string/network_mode_tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.SEM_DEFAULT_SETTING_ACTIVITY"
+                android:value="org.lineageos.settings.device.NetworkSettingsActivity" />
+        </service>
 
         <!-- Quick Settings Tile: Bypass Charging (Feature 19) -->
         <service
@@ -64,6 +82,24 @@
             <meta-data
                 android:name="com.android.settings.summary"
                 android:resource="@string/battery_care_summary" />
+        </activity>
+
+        <!-- Cellular & Band Controls Menu (Injected into Settings > Network & internet) -->
+        <activity
+            android:name=".NetworkSettingsActivity"
+            android:label="@string/network_settings_title"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.wireless" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/network_settings_summary" />
         </activity>
 
         <!-- Device Extras: Display KCAL, Haptics & Audio Mod -->

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/network_settings_title">
+
+    <PreferenceCategory android:title="@string/network_mode_category">
+        <ListPreference
+            android:key="pref_network_mode"
+            android:title="@string/network_mode_title"
+            android:summary="@string/network_mode_summary"
+            android:entries="@array/network_mode_entries"
+            android:entryValues="@array/network_mode_values"
+            android:defaultValue="9" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/lte_band_category">
+        <ListPreference
+            android:key="pref_lte_band_lock"
+            android:title="@string/lte_band_lock_title"
+            android:summary="@string/lte_band_lock_summary"
+            android:entries="@array/lte_band_entries"
+            android:entryValues="@array/lte_band_values"
+            android:defaultValue="0" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/sim_info_category">
+        <Preference
+            android:key="pref_carrier_name"
+            android:title="@string/carrier_name_title"
+            android:summary="Unknown"
+            android:selectable="false" />
+
+        <Preference
+            android:key="pref_current_network"
+            android:title="@string/current_network_title"
+            android:summary="Detecting..."
+            android:selectable="false" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

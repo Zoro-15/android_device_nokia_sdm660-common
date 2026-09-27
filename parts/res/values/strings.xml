@@ -61,4 +61,18 @@
     <string name="audio_category">Audio Enhancements</string>
     <string name="stereo_mod_title">Dual Stereo Loudspeaker Mod</string>
     <string name="stereo_mod_summary">Enable earpiece speaker as secondary loudspeaker for stereo sound</string>
+
+    <!-- Network Mode & Band Controls -->
+    <string name="network_mode_tile_label">Network Mode</string>
+    <string name="network_settings_title">Cellular &amp; Band Controls</string>
+    <string name="network_settings_summary">Lock LTE bands (B40, B3, B5) and force 2G/3G/4G modes</string>
+    <string name="network_mode_category">Network Generation Mode</string>
+    <string name="network_mode_title">Preferred Network Type</string>
+    <string name="network_mode_summary">Force phone to operate in 4G Only, 3G Only, 2G Only, or Auto</string>
+    <string name="lte_band_category">Qualcomm LTE Band Locking</string>
+    <string name="lte_band_lock_title">Lock 4G / LTE Band</string>
+    <string name="lte_band_lock_summary">Lock modem to Band 40 (Speed), Band 3 (Standard), or Band 5 (VoLTE Coverage)</string>
+    <string name="sim_info_category">Active Cellular Status</string>
+    <string name="carrier_name_title">Active Carrier</string>
+    <string name="current_network_title">Current Radio State</string>
 </resources>
