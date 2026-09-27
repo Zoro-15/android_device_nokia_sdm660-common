@@ -155,6 +155,7 @@ BOARD_SDCARDFS_COMPILE := true
 BOARD_USES_QC_TIME_SERVICES := true
 
 # Sepolicy
+BOARD_SEPOLICY_VERS := 29.0
 include device/qcom/sepolicy-legacy-um/sepolicy.mk
 
 BOARD_PLAT_PRIVATE_SEPOLICY_DIR += $(COMMON_PATH)/sepolicy/private
