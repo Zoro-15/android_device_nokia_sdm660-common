@@ -5,6 +5,11 @@
 audio.offload.min.duration.secs=30
 audio.offload.video=false
 audio.deep_buffer.media=true
+audio.offload.pcm.24bit.enable=true
+audio.offload.pcm.32bit.enable=true
+vendor.audio.offload.track.enable=true
+vendor.audio.offload.gapless.enabled=true
+vendor.audio.offload.multiaac.enable=true
 ro.af.client_heap_size_kbyte=7168
 ro.vendor.audio.sdk.fluencetype=fluence
 persist.sys.smartamp=1
@@ -200,8 +205,8 @@ wifi.supplicant_scan_interval=180
 persist.vendor.ims.disableADBLogs=1
 persist.vendor.qti.telephony.vt_cam_interface=1
 
-# Audio: Fine-Grained 30-Step Media Volume
-ro.config.media_vol_steps=30
+# Audio: Fine-Grained 60-Step Media Volume (for sensitive IEMs)
+ro.config.media_vol_steps=60
 ro.config.vc_call_vol_steps=8
 
 # Graphics & UI: Skia RenderThread & SurfaceFlinger Smoothing

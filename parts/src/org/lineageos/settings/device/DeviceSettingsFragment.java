@@ -6,6 +6,7 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SeekBarPreference;
+import androidx.preference.SwitchPreference;
 
 public class DeviceSettingsFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceChangeListener {
@@ -15,6 +16,10 @@ public class DeviceSettingsFragment extends PreferenceFragmentCompat
             "/sys/devices/platform/soc/c900000.qcom,mdss_mdp/drm/card0/sde-crtc-0/kcal_rgb";
     public static final String NODE_KCAL_SAT =
             "/sys/devices/platform/soc/c900000.qcom,mdss_mdp/drm/card0/sde-crtc-0/kcal_sat";
+    public static final String NODE_GLOVE_MODE =
+            "/sys/devices/platform/soc/c1b5000.i2c/i2c-5/5-0038/fts_glove_mode";
+    public static final String NODE_GLOVE_MODE_ALT =
+            "/proc/touchscreen/glove_mode";
 
     public static final String KEY_KCAL_PRESET = "kcal_preset";
     public static final String KEY_KCAL_RED = "kcal_red";
@@ -22,6 +27,8 @@ public class DeviceSettingsFragment extends PreferenceFragmentCompat
     public static final String KEY_KCAL_BLUE = "kcal_blue";
     public static final String KEY_KCAL_SAT = "kcal_sat";
     public static final String KEY_VIBRATOR = "vibrator_intensity";
+    public static final String KEY_GLOVE_MODE = "glove_mode_enabled";
+    public static final String KEY_PERF_PROFILE = "perf_mode_profile";
 
     private ListPreference mPresetPref;
     private SeekBarPreference mRedPref;
@@ -29,6 +36,8 @@ public class DeviceSettingsFragment extends PreferenceFragmentCompat
     private SeekBarPreference mBluePref;
     private SeekBarPreference mSatPref;
     private SeekBarPreference mVibPref;
+    private SwitchPreference mGlovePref;
+    private ListPreference mPerfPref;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -51,6 +60,12 @@ public class DeviceSettingsFragment extends PreferenceFragmentCompat
 
         mVibPref = findPreference(KEY_VIBRATOR);
         if (mVibPref != null) mVibPref.setOnPreferenceChangeListener(this);
+
+        mGlovePref = findPreference(KEY_GLOVE_MODE);
+        if (mGlovePref != null) mGlovePref.setOnPreferenceChangeListener(this);
+
+        mPerfPref = findPreference(KEY_PERF_PROFILE);
+        if (mPerfPref != null) mPerfPref.setOnPreferenceChangeListener(this);
     }
 
     @Override
@@ -104,6 +119,16 @@ public class DeviceSettingsFragment extends PreferenceFragmentCompat
             int b = KEY_KCAL_BLUE.equals(key) ? (Integer) newValue : prefs.getInt(KEY_KCAL_BLUE, 256);
             FileUtils.writeLine(NODE_KCAL_RGB, r + " " + g + " " + b);
             if (mPresetPref != null) mPresetPref.setValue("custom");
+            return true;
+        } else if (KEY_GLOVE_MODE.equals(key)) {
+            boolean enabled = (Boolean) newValue;
+            String val = enabled ? "1" : "0";
+            FileUtils.writeLine(NODE_GLOVE_MODE, val);
+            FileUtils.writeLine(NODE_GLOVE_MODE_ALT, val);
+            return true;
+        } else if (KEY_PERF_PROFILE.equals(key)) {
+            int mode = Integer.parseInt((String) newValue);
+            PerformanceTileService.applyProfile(mode);
             return true;
         }
         return true;

@@ -79,4 +79,16 @@
         <item>8</item>
         <item>41</item>
     </string-array>
+
+    <!-- Performance & Power Profiles -->
+    <string-array name="perf_profile_entries">
+        <item>Balanced (Standard Daily Operation)</item>
+        <item>Gaming / Ultra Performance (588MHz GPU + Max CPU)</item>
+        <item>Extreme Battery Saver (Underclock + Minimal Wakeups)</item>
+    </string-array>
+    <string-array name="perf_profile_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>

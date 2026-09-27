@@ -5278,5 +5278,13 @@ if [ -d /dev/stune ]; then
     echo 0 > /dev/stune/foreground/schedtune.boost
 fi
 
+# Power & USB: Enable Fast Charging over PC/Laptop USB ports (up to 1500mA)
+if [ -f /sys/class/power_supply/usb/current_max ]; then
+    echo 1500000 > /sys/class/power_supply/usb/current_max
+fi
+if [ -f /sys/class/power_supply/usb/sdp_current_max ]; then
+    echo 1500000 > /sys/class/power_supply/usb/sdp_current_max
+fi
+
 
 

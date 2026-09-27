@@ -75,4 +75,15 @@
     <string name="sim_info_category">Active Cellular Status</string>
     <string name="carrier_name_title">Active Carrier</string>
     <string name="current_network_title">Current Radio State</string>
+
+    <!-- Touch Sensitivity / Glove Mode -->
+    <string name="touch_category">Touchscreen Sensitivity</string>
+    <string name="glove_mode_title">High Touch Sensitivity (Glove Mode)</string>
+    <string name="glove_mode_summary">Increases touch polling sensitivity for thick tempered glass protectors or gloves</string>
+
+    <!-- Performance & Gaming Modes -->
+    <string name="perf_category">Performance &amp; Power Profiles</string>
+    <string name="perf_tile_label">Performance</string>
+    <string name="perf_profile_title">System Power Profile</string>
+    <string name="perf_profile_summary">Switch between Gaming Turbo (max clock), Extreme Battery Saver, and Balanced</string>
 </resources>

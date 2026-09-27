@@ -28,6 +28,17 @@
                 android:value="org.lineageos.settings.device.NetworkSettingsActivity" />
         </service>
 
+        <!-- Quick Settings Tile: Performance / Gaming & Battery Saver -->
+        <service
+            android:name=".PerformanceTileService"
+            android:icon="@drawable/ic_performance_mode"
+            android:label="@string/perf_tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <!-- Quick Settings Tile: Bypass Charging (Feature 19) -->
         <service
             android:name=".BypassTileService"
