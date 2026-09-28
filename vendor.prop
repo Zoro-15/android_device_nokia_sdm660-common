@@ -118,7 +118,7 @@ persist.vendor.camera.stats.test=0
 persist.vendor.camera.ven_hdr=0
 ro.camera.record.anim.delay=200
 ro.camera.switch.anim.delay=300
-vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.android.camera,com.google.android.GoogleCamera,com.hmdglobal.camera2
+vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.android.camera,com.google.android.GoogleCamera
 vendor.camera.c2d.rotation=1
 
 # CNE & DPM
