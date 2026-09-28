@@ -16,6 +16,10 @@
 
 COMMON_PATH := device/nokia/sdm660-common
 
+# Dexpreopt
+PRODUCT_ALWAYS_PREOPT_EXTRACTED_APK := true
+PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := speed-profile
+
 # Enable updating of APEXes
 $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
