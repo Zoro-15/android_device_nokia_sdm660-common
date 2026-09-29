@@ -513,10 +513,9 @@
     <integer name="config_autoPowerModeAnyMotionSensor">0</integer>
     <bool name="config_autoPowerModePrefetchLocation">false</bool>
 
-    <!-- Batch 3: VoLTE & VoWiFi Carrier Overlays -->
+    <!-- Batch 3: VoLTE & VoWiFi Carrier Overlays (config_dynamic_bind_ims defined above) -->
     <bool name="config_carrier_volte_available">true</bool>
     <bool name="config_carrier_wfc_ims_available">true</bool>
-    <bool name="config_dynamic_bind_ims">true</bool>
 
     <!-- Direct Power Button Torch (Long-press power button when screen is off) -->
     <bool name="config_supportLongPressPowerWhenNonInteractive">true</bool>
