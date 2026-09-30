@@ -16,10 +16,6 @@
 
 COMMON_PATH := device/nokia/sdm660-common
 
-# Dexpreopt
-PRODUCT_ALWAYS_PREOPT_EXTRACTED_APK := true
-PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := speed-profile
-
 # Enable updating of APEXes
 $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
@@ -452,3 +448,7 @@ PRODUCT_BOOT_JARS += \
 # DeviceParts (Nokia 6.1 Features)
 PRODUCT_PACKAGES += \
     DeviceParts
+
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/configs/privapp-permissions-parts.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/privapp-permissions-parts.xml
+

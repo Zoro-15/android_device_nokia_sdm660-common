@@ -125,3 +125,7 @@ persist.sys.wfd.virtual=0
 persist.sys.wifi_log_enable=false
 ro.wifi.power.reduction=1
 wifi.supplicant_scan_interval=180
+
+# USB
+persist.sys.usb.config=adb
+
