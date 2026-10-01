@@ -12,6 +12,9 @@ public class TileSettingsDispatcherActivity extends Activity {
 
         ComponentName component = getIntent().getParcelableExtra(Intent.EXTRA_COMPONENT_NAME);
         if (component == null) {
+            component = getIntent().getParcelableExtra("android.service.quicksettings.extra.COMPONENT_NAME");
+        }
+        if (component == null) {
             component = getIntent().getParcelableExtra("android.intent.extra.COMPONENT_NAME");
         }
 
@@ -28,6 +31,10 @@ public class TileSettingsDispatcherActivity extends Activity {
         } else {
             targetIntent = new Intent(this, DeviceSettingsActivity.class);
         }
+
+        try {
+            sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+        } catch (Exception ignored) {}
 
         targetIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(targetIntent);

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_color">#202124</color>
+    <color name="primary_dark_color">#121212</color>
+    <color name="accent_color">#80cbc4</color>
+    <color name="action_bar_title_color">#ffffff</color>
+</resources>

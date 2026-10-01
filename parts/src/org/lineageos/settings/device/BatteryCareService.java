@@ -33,7 +33,7 @@ public class BatteryCareService extends Service {
 
             // If manual bypass charging is active, charging remains strictly disabled (0mA)
             if (isBypassActive) {
-                FileUtils.writeLine(NODE_CHARGING_ENABLED, "0");
+                FileUtils.setChargingEnabled(false);
                 return;
             }
 
@@ -48,15 +48,15 @@ public class BatteryCareService extends Service {
             if (stopThreshold > 0) {
                 if (percent >= stopThreshold) {
                     // Reached stop threshold: cutoff charging to protect battery lifespan
-                    FileUtils.writeLine(NODE_CHARGING_ENABLED, "0");
+                    FileUtils.setChargingEnabled(false);
                     Log.d(TAG, "Battery level " + percent + "% >= threshold " + stopThreshold + "%, charging stopped.");
                 } else if (percent <= (stopThreshold - 2)) {
                     // 2% hysteresis: prevent rapid toggle oscillation
-                    FileUtils.writeLine(NODE_CHARGING_ENABLED, "1");
+                    FileUtils.setChargingEnabled(true);
                 }
             } else {
                 // Unlimited charging
-                FileUtils.writeLine(NODE_CHARGING_ENABLED, "1");
+                FileUtils.setChargingEnabled(true);
             }
 
             // Batch 8: Evaluate Blaze Dynamic Thermal Charging Engine

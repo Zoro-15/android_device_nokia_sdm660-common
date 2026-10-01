@@ -233,6 +233,10 @@ on boot
     # Battery Charging Control permissions for DeviceParts (Batch 7)
     chown system system /sys/class/power_supply/battery/battery_charging_enabled
     chmod 0660 /sys/class/power_supply/battery/battery_charging_enabled
+    chown system system /sys/class/power_supply/battery/charging_enabled
+    chmod 0660 /sys/class/power_supply/battery/charging_enabled
+    chown system system /sys/class/power_supply/battery/input_suspend
+    chmod 0660 /sys/class/power_supply/battery/input_suspend
 
     # Blaze Current Limiter permission (Batch 8)
     chown system system /sys/class/power_supply/battery/constant_charge_current_max

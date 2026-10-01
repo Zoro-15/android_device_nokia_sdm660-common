@@ -25,7 +25,7 @@ public class BatteryCareReceiver extends BroadcastReceiver {
         } else if (Intent.ACTION_POWER_DISCONNECTED.equals(action)) {
             Log.i(TAG, "Power disconnected: Resetting charging enable state to normal");
             // Re-enable charging so next plug-in is clean
-            FileUtils.writeLine(NODE_CHARGING_ENABLED, "1");
+            FileUtils.setChargingEnabled(true);
             androidx.preference.PreferenceManager.getDefaultSharedPreferences(context)
                     .edit()
                     .putBoolean(BatteryCareService.PREF_BYPASS_CHARGING, false)
