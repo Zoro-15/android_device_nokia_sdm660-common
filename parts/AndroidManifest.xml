@@ -12,6 +12,7 @@
 
     <application
         android:label="@string/device_parts_name"
+        android:theme="@style/Theme.DeviceParts"
         android:persistent="true">
 
         <!-- Quick Settings Tile: Network Mode (4G / 3G / 2G) -->
@@ -128,6 +129,7 @@
         <!-- Device Extras: Display KCAL, Haptics & Audio Mod -->
         <activity
             android:name=".DeviceSettingsActivity"
+            android:icon="@drawable/ic_device_extras_logo"
             android:label="@string/device_extras_title"
             android:exported="true">
             <intent-filter>
@@ -139,8 +141,22 @@
                 android:name="com.android.settings.category"
                 android:value="com.android.settings.category.ia.homepage" />
             <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_device_extras_logo" />
+            <meta-data
                 android:name="com.android.settings.summary"
                 android:resource="@string/device_parts_name" />
+        </activity>
+
+        <!-- Quick Settings Tile Long-Press Preferences Dispatcher -->
+        <activity
+            android:name=".TileSettingsDispatcherActivity"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
     </application>

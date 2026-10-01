@@ -26,11 +26,26 @@ public class PerformanceTileService extends TileService {
         updateTileState();
     }
 
+    public static int getPerfMode(SharedPreferences prefs) {
+        try {
+            String val = prefs.getString(PREF_PERF_MODE, String.valueOf(MODE_BALANCED));
+            return Integer.parseInt(val);
+        } catch (ClassCastException e) {
+            try {
+                return prefs.getInt(PREF_PERF_MODE, MODE_BALANCED);
+            } catch (Exception ex) {
+                return MODE_BALANCED;
+            }
+        } catch (Exception e) {
+            return MODE_BALANCED;
+        }
+    }
+
     @Override
     public void onClick() {
         super.onClick();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        int current = prefs.getInt(PREF_PERF_MODE, MODE_BALANCED);
+        int current = getPerfMode(prefs);
         int next;
 
         // Cycle: Balanced (0) -> Gaming (1) -> Battery Saver (2) -> Balanced (0)
@@ -43,31 +58,34 @@ public class PerformanceTileService extends TileService {
         }
 
         applyProfile(next);
-        prefs.edit().putInt(PREF_PERF_MODE, next).apply();
+        prefs.edit().putString(PREF_PERF_MODE, String.valueOf(next)).apply();
         updateTileState();
     }
 
     public static void applyProfile(int mode) {
-        switch (mode) {
-            case MODE_GAMING:
-                // GPU max clock 588MHz + high top-app responsiveness boost
-                FileUtils.writeLine(NODE_GPU_MIN_FREQ, "588000000");
-                FileUtils.writeLine(NODE_STUNE_BOOST, "30");
-                FileUtils.writeLine(NODE_CPU_BIG_MAX, "2208000");
-                break;
-            case MODE_BATTERY_SAVER:
-                // GPU idle floor 160MHz + 0 boost + underclock Gold cluster to 1.4GHz
-                FileUtils.writeLine(NODE_GPU_MIN_FREQ, "160000000");
-                FileUtils.writeLine(NODE_STUNE_BOOST, "0");
-                FileUtils.writeLine(NODE_CPU_BIG_MAX, "1401600");
-                break;
-            case MODE_BALANCED:
-            default:
-                // Standard balanced operation
-                FileUtils.writeLine(NODE_GPU_MIN_FREQ, "160000000");
-                FileUtils.writeLine(NODE_STUNE_BOOST, "5");
-                FileUtils.writeLine(NODE_CPU_BIG_MAX, "2208000");
-                break;
+        try {
+            switch (mode) {
+                case MODE_GAMING:
+                    // GPU max clock 588MHz + high top-app responsiveness boost
+                    FileUtils.writeLine(NODE_GPU_MIN_FREQ, "588000000");
+                    FileUtils.writeLine(NODE_STUNE_BOOST, "30");
+                    FileUtils.writeLine(NODE_CPU_BIG_MAX, "2208000");
+                    break;
+                case MODE_BATTERY_SAVER:
+                    // GPU idle floor 160MHz + 0 boost + underclock Gold cluster to 1.4GHz
+                    FileUtils.writeLine(NODE_GPU_MIN_FREQ, "160000000");
+                    FileUtils.writeLine(NODE_STUNE_BOOST, "0");
+                    FileUtils.writeLine(NODE_CPU_BIG_MAX, "1401600");
+                    break;
+                case MODE_BALANCED:
+                default:
+                    // Standard balanced operation
+                    FileUtils.writeLine(NODE_GPU_MIN_FREQ, "160000000");
+                    FileUtils.writeLine(NODE_STUNE_BOOST, "5");
+                    FileUtils.writeLine(NODE_CPU_BIG_MAX, "2208000");
+                    break;
+            }
+        } catch (Exception ignored) {
         }
     }
 
@@ -76,7 +94,7 @@ public class PerformanceTileService extends TileService {
         if (tile == null) return;
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        int mode = prefs.getInt(PREF_PERF_MODE, MODE_BALANCED);
+        int mode = getPerfMode(prefs);
         String label;
         int state;
 

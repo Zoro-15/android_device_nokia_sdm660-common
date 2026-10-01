@@ -1,11 +1,12 @@
 package org.lineageos.settings.device;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.SeekBarPreference;
 import androidx.preference.SwitchPreference;
 
 public class DeviceSettingsFragment extends PreferenceFragmentCompat
@@ -22,6 +23,7 @@ public class DeviceSettingsFragment extends PreferenceFragmentCompat
             "/proc/touchscreen/glove_mode";
 
     public static final String KEY_KCAL_PRESET = "kcal_preset";
+    public static final String KEY_COLOR_TEMP = "color_temperature";
     public static final String KEY_KCAL_RED = "kcal_red";
     public static final String KEY_KCAL_GREEN = "kcal_green";
     public static final String KEY_KCAL_BLUE = "kcal_blue";
@@ -38,11 +40,12 @@ public class DeviceSettingsFragment extends PreferenceFragmentCompat
     public static final String NODE_IMPEDANCE_3 = "/sys/devices/platform/soc/soc:qcom,msm-audio-pinctrl/impedance";
 
     private ListPreference mPresetPref;
-    private SeekBarPreference mRedPref;
-    private SeekBarPreference mGreenPref;
-    private SeekBarPreference mBluePref;
-    private SeekBarPreference mSatPref;
-    private SeekBarPreference mVibPref;
+    private StepperSeekBarPreference mTempPref;
+    private StepperSeekBarPreference mRedPref;
+    private StepperSeekBarPreference mGreenPref;
+    private StepperSeekBarPreference mBluePref;
+    private StepperSeekBarPreference mSatPref;
+    private StepperSeekBarPreference mVibPref;
     private SwitchPreference mGlovePref;
     private ListPreference mPerfPref;
     private Preference mImpedancePref;
@@ -54,20 +57,55 @@ public class DeviceSettingsFragment extends PreferenceFragmentCompat
         mPresetPref = findPreference(KEY_KCAL_PRESET);
         if (mPresetPref != null) mPresetPref.setOnPreferenceChangeListener(this);
 
+        mTempPref = findPreference(KEY_COLOR_TEMP);
+        if (mTempPref != null) {
+            mTempPref.setMin(2500);
+            mTempPref.setMax(7500);
+            mTempPref.setStep(50);
+            mTempPref.setSuffix(" K");
+            mTempPref.setOnPreferenceChangeListener(this);
+        }
+
         mRedPref = findPreference(KEY_KCAL_RED);
-        if (mRedPref != null) mRedPref.setOnPreferenceChangeListener(this);
+        if (mRedPref != null) {
+            mRedPref.setMin(1);
+            mRedPref.setMax(256);
+            mRedPref.setStep(1);
+            mRedPref.setOnPreferenceChangeListener(this);
+        }
 
         mGreenPref = findPreference(KEY_KCAL_GREEN);
-        if (mGreenPref != null) mGreenPref.setOnPreferenceChangeListener(this);
+        if (mGreenPref != null) {
+            mGreenPref.setMin(1);
+            mGreenPref.setMax(256);
+            mGreenPref.setStep(1);
+            mGreenPref.setOnPreferenceChangeListener(this);
+        }
 
         mBluePref = findPreference(KEY_KCAL_BLUE);
-        if (mBluePref != null) mBluePref.setOnPreferenceChangeListener(this);
+        if (mBluePref != null) {
+            mBluePref.setMin(1);
+            mBluePref.setMax(256);
+            mBluePref.setStep(1);
+            mBluePref.setOnPreferenceChangeListener(this);
+        }
 
         mSatPref = findPreference(KEY_KCAL_SAT);
-        if (mSatPref != null) mSatPref.setOnPreferenceChangeListener(this);
+        if (mSatPref != null) {
+            mSatPref.setMin(224);
+            mSatPref.setMax(383);
+            mSatPref.setStep(1);
+            mSatPref.setOnPreferenceChangeListener(this);
+        }
 
         mVibPref = findPreference(KEY_VIBRATOR);
-        if (mVibPref != null) mVibPref.setOnPreferenceChangeListener(this);
+        if (mVibPref != null) {
+            mVibPref.setMin(1500);
+            mVibPref.setMax(3100);
+            mVibPref.setStep(50);
+            mVibPref.setSuffix(" mV");
+            mVibPref.setOnPreferenceChangeListener(this);
+        }
 
         mGlovePref = findPreference(KEY_GLOVE_MODE);
         if (mGlovePref != null) mGlovePref.setOnPreferenceChangeListener(this);
@@ -117,19 +155,22 @@ public class DeviceSettingsFragment extends PreferenceFragmentCompat
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         String key = preference.getKey();
         SharedPreferences prefs = preference.getSharedPreferences();
+        Context context = getContext();
 
         if (KEY_KCAL_PRESET.equals(key)) {
             String preset = (String) newValue;
             int r = 256, g = 256, b = 256, sat = 256;
+            int temp = 6500;
+            int mode = 0; // Natural
 
             if ("default".equals(preset)) {
-                r = 256; g = 256; b = 256; sat = 256;
+                r = 256; g = 256; b = 256; sat = 256; temp = 6500; mode = 0;
             } else if ("vibrant".equals(preset)) {
-                r = 256; g = 256; b = 256; sat = 285;
+                r = 256; g = 256; b = 256; sat = 285; temp = 6500; mode = 1;
             } else if ("warm".equals(preset)) {
-                r = 256; g = 235; b = 210; sat = 245;
+                r = 256; g = 235; b = 210; sat = 245; temp = 4200; mode = 0;
             } else if ("cool".equals(preset)) {
-                r = 248; g = 252; b = 256; sat = 260;
+                r = 248; g = 252; b = 256; sat = 260; temp = 7200; mode = 0;
             }
 
             if (!"custom".equals(preset)) {
@@ -137,17 +178,31 @@ public class DeviceSettingsFragment extends PreferenceFragmentCompat
                 if (mGreenPref != null) mGreenPref.setValue(g);
                 if (mBluePref != null) mBluePref.setValue(b);
                 if (mSatPref != null) mSatPref.setValue(sat);
+                if (mTempPref != null) mTempPref.setValue(temp);
 
                 prefs.edit()
                         .putInt(KEY_KCAL_RED, r)
                         .putInt(KEY_KCAL_GREEN, g)
                         .putInt(KEY_KCAL_BLUE, b)
                         .putInt(KEY_KCAL_SAT, sat)
+                        .putInt(KEY_COLOR_TEMP, temp)
                         .apply();
 
+                if (context != null) {
+                    DisplayColorUtils.setColorMode(context, mode);
+                    DisplayColorUtils.applyColorCalibration(context, r, g, b);
+                    DisplayColorUtils.setColorTemperature(context, temp);
+                }
                 FileUtils.writeLine(NODE_KCAL_RGB, r + " " + g + " " + b);
                 FileUtils.writeLine(NODE_KCAL_SAT, sat);
             }
+            return true;
+        } else if (KEY_COLOR_TEMP.equals(key)) {
+            int kelvin = (Integer) newValue;
+            if (context != null) {
+                DisplayColorUtils.setColorTemperature(context, kelvin);
+            }
+            if (mPresetPref != null) mPresetPref.setValue("custom");
             return true;
         } else if (KEY_VIBRATOR.equals(key)) {
             int val = (Integer) newValue;
@@ -159,9 +214,13 @@ public class DeviceSettingsFragment extends PreferenceFragmentCompat
             if (mPresetPref != null) mPresetPref.setValue("custom");
             return true;
         } else if (KEY_KCAL_RED.equals(key) || KEY_KCAL_GREEN.equals(key) || KEY_KCAL_BLUE.equals(key)) {
-            int r = KEY_KCAL_RED.equals(key) ? (Integer) newValue : prefs.getInt(KEY_KCAL_RED, 256);
-            int g = KEY_KCAL_GREEN.equals(key) ? (Integer) newValue : prefs.getInt(KEY_KCAL_GREEN, 256);
-            int b = KEY_KCAL_BLUE.equals(key) ? (Integer) newValue : prefs.getInt(KEY_KCAL_BLUE, 256);
+            int r = KEY_KCAL_RED.equals(key) ? (Integer) newValue : (mRedPref != null ? mRedPref.getValue() : 256);
+            int g = KEY_KCAL_GREEN.equals(key) ? (Integer) newValue : (mGreenPref != null ? mGreenPref.getValue() : 256);
+            int b = KEY_KCAL_BLUE.equals(key) ? (Integer) newValue : (mBluePref != null ? mBluePref.getValue() : 256);
+
+            if (context != null) {
+                DisplayColorUtils.applyColorCalibration(context, r, g, b);
+            }
             FileUtils.writeLine(NODE_KCAL_RGB, r + " " + g + " " + b);
             if (mPresetPref != null) mPresetPref.setValue("custom");
             return true;
@@ -172,8 +231,10 @@ public class DeviceSettingsFragment extends PreferenceFragmentCompat
             FileUtils.writeLine(NODE_GLOVE_MODE_ALT, val);
             return true;
         } else if (KEY_PERF_PROFILE.equals(key)) {
-            int mode = Integer.parseInt((String) newValue);
-            PerformanceTileService.applyProfile(mode);
+            try {
+                int mode = Integer.parseInt((String) newValue);
+                PerformanceTileService.applyProfile(mode);
+            } catch (Exception ignored) {}
             return true;
         }
         return true;

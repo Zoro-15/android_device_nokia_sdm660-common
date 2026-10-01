@@ -2,11 +2,15 @@ package org.lineageos.settings.device;
 
 import android.content.SharedPreferences;
 import android.graphics.drawable.Icon;
+import android.os.UserHandle;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.IWindowManager;
 import android.view.WindowManager;
+import android.view.WindowManagerGlobal;
 import androidx.preference.PreferenceManager;
 
 public class ResolutionTileService extends TileService {
@@ -43,19 +47,37 @@ public class ResolutionTileService extends TileService {
 
     private void setResolutionMode(boolean enable720p) {
         try {
-            if (enable720p) {
-                Runtime.getRuntime().exec(new String[]{"wm", "size", "720x1520"}).waitFor();
-                Runtime.getRuntime().exec(new String[]{"wm", "density", "280"}).waitFor();
-            } else {
-                Runtime.getRuntime().exec(new String[]{"wm", "size", "reset"}).waitFor();
-                Runtime.getRuntime().exec(new String[]{"wm", "density", "reset"}).waitFor();
+            IWindowManager wm = WindowManagerGlobal.getWindowManagerService();
+            if (wm != null) {
+                if (enable720p) {
+                    wm.setForcedDisplaySize(Display.DEFAULT_DISPLAY, 720, 1520);
+                    wm.setForcedDisplayDensityForUser(Display.DEFAULT_DISPLAY, 280, UserHandle.myUserId());
+                } else {
+                    wm.clearForcedDisplaySize(Display.DEFAULT_DISPLAY);
+                    wm.clearForcedDisplayDensityForUser(Display.DEFAULT_DISPLAY, UserHandle.myUserId());
+                }
             }
             PreferenceManager.getDefaultSharedPreferences(this)
                     .edit()
                     .putBoolean(PREF_IS_720P, enable720p)
                     .apply();
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to switch resolution: " + e.getMessage());
+        } catch (Throwable t) {
+            Log.w(TAG, "IWindowManager call failed, falling back to wm command: " + t.getMessage());
+            try {
+                if (enable720p) {
+                    Runtime.getRuntime().exec(new String[]{"wm", "size", "720x1520"}).waitFor();
+                    Runtime.getRuntime().exec(new String[]{"wm", "density", "280"}).waitFor();
+                } else {
+                    Runtime.getRuntime().exec(new String[]{"wm", "size", "reset"}).waitFor();
+                    Runtime.getRuntime().exec(new String[]{"wm", "density", "reset"}).waitFor();
+                }
+                PreferenceManager.getDefaultSharedPreferences(this)
+                        .edit()
+                        .putBoolean(PREF_IS_720P, enable720p)
+                        .apply();
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to switch resolution: " + e.getMessage());
+            }
         }
     }
 

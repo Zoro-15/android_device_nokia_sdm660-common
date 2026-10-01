@@ -2,7 +2,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/device_extras_title">
 
-    <PreferenceCategory android:title="@string/display_kcal_category">
+    <PreferenceCategory
+        android:key="category_kcal"
+        android:title="@string/display_kcal_category">
         <ListPreference
             android:key="kcal_preset"
             android:title="@string/kcal_preset_title"
@@ -11,42 +13,38 @@
             android:entryValues="@array/kcal_preset_values"
             android:defaultValue="default" />
 
-        <SeekBarPreference
+        <org.lineageos.settings.device.StepperSeekBarPreference
+            android:key="color_temperature"
+            android:title="@string/color_temp_title"
+            android:summary="@string/color_temp_summary"
+            android:defaultValue="6500" />
+
+        <org.lineageos.settings.device.StepperSeekBarPreference
             android:key="kcal_red"
             android:title="@string/kcal_red_title"
-            android:min="1"
-            android:max="256"
             android:defaultValue="256" />
 
-        <SeekBarPreference
+        <org.lineageos.settings.device.StepperSeekBarPreference
             android:key="kcal_green"
             android:title="@string/kcal_green_title"
-            android:min="1"
-            android:max="256"
             android:defaultValue="256" />
 
-        <SeekBarPreference
+        <org.lineageos.settings.device.StepperSeekBarPreference
             android:key="kcal_blue"
             android:title="@string/kcal_blue_title"
-            android:min="1"
-            android:max="256"
             android:defaultValue="256" />
 
-        <SeekBarPreference
+        <org.lineageos.settings.device.StepperSeekBarPreference
             android:key="kcal_sat"
             android:title="@string/kcal_sat_title"
-            android:min="224"
-            android:max="383"
             android:defaultValue="256" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/haptics_category">
-        <SeekBarPreference
+        <org.lineageos.settings.device.StepperSeekBarPreference
             android:key="vibrator_intensity"
             android:title="@string/vibrator_intensity_title"
             android:summary="@string/vibrator_intensity_summary"
-            android:min="1500"
-            android:max="3100"
             android:defaultValue="2100" />
     </PreferenceCategory>
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- DeviceParts DayNight Theme: Follows system Dark/Light theme and supplies PreferenceThemeOverlay -->
+    <style name="Theme.DeviceParts" parent="Theme.AppCompat.DayNight">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="colorPrimary">?android:attr/colorPrimary</item>
+        <item name="colorAccent">?android:attr/colorAccent</item>
+    </style>
+</resources>
