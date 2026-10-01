@@ -12,16 +12,6 @@
             android:defaultValue="9" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/lte_band_category">
-        <ListPreference
-            android:key="pref_lte_band_lock"
-            android:title="@string/lte_band_lock_title"
-            android:summary="@string/lte_band_lock_summary"
-            android:entries="@array/lte_band_entries"
-            android:entryValues="@array/lte_band_values"
-            android:defaultValue="0" />
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/sim_info_category">
         <Preference
             android:key="pref_carrier_name"

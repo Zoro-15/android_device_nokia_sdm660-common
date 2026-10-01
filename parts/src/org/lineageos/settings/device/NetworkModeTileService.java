@@ -1,6 +1,5 @@
 package org.lineageos.settings.device;
 
-import android.content.Intent;
 import android.graphics.drawable.Icon;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;

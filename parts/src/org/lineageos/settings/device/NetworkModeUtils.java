@@ -2,7 +2,6 @@ package org.lineageos.settings.device;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.SystemProperties;
 import android.provider.Settings;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
@@ -17,10 +16,6 @@ public final class NetworkModeUtils {
     public static final int MODE_AUTO = 9;     // NETWORK_MODE_LTE_GSM_WCDMA
 
     public static final String KEY_NETWORK_MODE = "pref_network_mode";
-    public static final String KEY_LTE_BAND_LOCK = "pref_lte_band_lock";
-
-    public static final String PROP_LTE_BAND_PREF = "persist.vendor.radio.lte_band_pref";
-    public static final String PROP_BAND_MODE = "persist.vendor.radio.band_mode";
 
     private NetworkModeUtils() {}
 
@@ -59,22 +54,6 @@ public final class NetworkModeUtils {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs.edit().putString(KEY_NETWORK_MODE, String.valueOf(mode)).apply();
-    }
-
-    public static String getLteBandLock(Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getString(KEY_LTE_BAND_LOCK, "0");
-    }
-
-    public static void setLteBandLock(Context context, String band) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefs.edit().putString(KEY_LTE_BAND_LOCK, band).apply();
-
-        try {
-            SystemProperties.set(PROP_LTE_BAND_PREF, band);
-            SystemProperties.set(PROP_BAND_MODE, band);
-        } catch (Exception ignored) {
-        }
     }
 
     public static String getCarrierName(Context context) {
@@ -122,10 +101,6 @@ public final class NetworkModeUtils {
         } catch (Exception ignored) {
         }
 
-        String savedBand = getLteBandLock(context);
-        if ("40".equals(savedBand)) return "B40";
-        if ("3".equals(savedBand)) return "B3";
-        if ("5".equals(savedBand)) return "B5";
         return "";
     }
 

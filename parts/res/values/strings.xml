@@ -41,48 +41,22 @@
     <string name="telemetry_current_title">Live Current</string>
     <string name="telemetry_temp_title">Live Temperature</string>
     <string name="telemetry_cycles_title">Hardware Charge Cycles</string>
-    <string name="telemetry_health_title">Battery Status</string>
-
-
     <!-- Haptic Feedback -->
     <string name="haptics_category">Haptic Vibration</string>
     <string name="vibrator_intensity_title">Haptic Feedback Intensity</string>
     <string name="vibrator_intensity_summary">Vibration motor voltage level (default: 2100mV gentle)</string>
 
-    <!-- Dual Stereo Audio & IEM Hi-Fi -->
-    <string name="audio_category">Audio Enhancements</string>
-    <string name="stereo_mod_title">Dual Stereo Loudspeaker Mod</string>
-    <string name="stereo_mod_summary">Enable earpiece speaker as secondary loudspeaker for stereo sound</string>
-    <string name="auto_iem_title">Auto IEM Low-Gain Mode</string>
-    <string name="auto_iem_summary">Automatically activates zero-hiss low-gain profile when 3.5mm IEM or headphones are connected</string>
-    <string name="headphone_impedance_title">Headphone Load Impedance</string>
-    <string name="headphone_impedance_summary">Detects connected headphone impedance load via Qualcomm MBHC audio subsystem</string>
-
     <!-- Display Resolution -->
     <string name="resolution_tile_label">Resolution</string>
 
-    <!-- Network Mode & Band Controls -->
+    <!-- Network Mode Controls -->
     <string name="network_mode_tile_label">Network Mode</string>
-    <string name="network_settings_title">Cellular &amp; Band Controls</string>
-    <string name="network_settings_summary">Lock LTE bands (B40, B3, B5) and force 2G/3G/4G modes</string>
+    <string name="network_settings_title">Cellular Network Controls</string>
+    <string name="network_settings_summary">Configure 4G, 3G, and 2G preferred network modes</string>
     <string name="network_mode_category">Network Generation Mode</string>
     <string name="network_mode_title">Preferred Network Type</string>
     <string name="network_mode_summary">Force phone to operate in 4G Only, 3G Only, 2G Only, or Auto</string>
-    <string name="lte_band_category">Qualcomm LTE Band Locking</string>
-    <string name="lte_band_lock_title">Lock 4G / LTE Band</string>
-    <string name="lte_band_lock_summary">Lock modem to Band 40 (Speed), Band 3 (Standard), or Band 5 (VoLTE Coverage)</string>
     <string name="sim_info_category">Active Cellular Status</string>
     <string name="carrier_name_title">Active Carrier</string>
     <string name="current_network_title">Current Radio State</string>
-
-    <!-- Touch Sensitivity / Glove Mode -->
-    <string name="touch_category">Touchscreen Sensitivity</string>
-    <string name="glove_mode_title">High Touch Sensitivity (Glove Mode)</string>
-    <string name="glove_mode_summary">Increases touch polling sensitivity for thick tempered glass protectors or gloves</string>
-
-    <!-- Performance & Gaming Modes -->
-    <string name="perf_category">Performance &amp; Power Profiles</string>
-    <string name="perf_tile_label">Performance</string>
-    <string name="perf_profile_title">System Power Profile</string>
-    <string name="perf_profile_summary">Switch between Gaming Turbo (max clock), Extreme Battery Saver, and Balanced</string>
 </resources>

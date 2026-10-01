@@ -14,8 +14,6 @@ import androidx.preference.PreferenceManager;
 
 public class BatteryCareService extends Service {
     private static final String TAG = "BatteryCareService";
-    public static final String NODE_CHARGING_ENABLED =
-            "/sys/class/power_supply/battery/battery_charging_enabled";
     public static final String PREF_BATTERY_STOP_LEVEL = "battery_stop_level";
     public static final String PREF_BYPASS_CHARGING = "bypass_charging_enabled";
 

@@ -10,12 +10,10 @@ public class NetworkSettingsFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceChangeListener {
 
     public static final String KEY_NETWORK_MODE = "pref_network_mode";
-    public static final String KEY_LTE_BAND_LOCK = "pref_lte_band_lock";
     public static final String KEY_CARRIER_NAME = "pref_carrier_name";
     public static final String KEY_CURRENT_NETWORK = "pref_current_network";
 
     private ListPreference mNetworkModePref;
-    private ListPreference mLteBandPref;
     private Preference mCarrierPref;
     private Preference mNetworkTypePref;
 
@@ -31,16 +29,6 @@ public class NetworkSettingsFragment extends PreferenceFragmentCompat
                 mNetworkModePref.setValue(String.valueOf(mode));
             }
             mNetworkModePref.setOnPreferenceChangeListener(this);
-        }
-
-        mLteBandPref = findPreference(KEY_LTE_BAND_LOCK);
-        if (mLteBandPref != null) {
-            Context ctx = getContext();
-            if (ctx != null) {
-                String band = NetworkModeUtils.getLteBandLock(ctx);
-                mLteBandPref.setValue(band);
-            }
-            mLteBandPref.setOnPreferenceChangeListener(this);
         }
 
         mCarrierPref = findPreference(KEY_CARRIER_NAME);
@@ -80,10 +68,6 @@ public class NetworkSettingsFragment extends PreferenceFragmentCompat
             } catch (NumberFormatException ignored) {
             }
             updateLiveStatus();
-            return true;
-        } else if (KEY_LTE_BAND_LOCK.equals(key)) {
-            String band = (String) newValue;
-            NetworkModeUtils.setLteBandLock(ctx, band);
             return true;
         }
         return true;

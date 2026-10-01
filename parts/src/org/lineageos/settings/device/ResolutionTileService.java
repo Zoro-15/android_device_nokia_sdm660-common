@@ -50,7 +50,7 @@ public class ResolutionTileService extends TileService {
             IWindowManager wm = WindowManagerGlobal.getWindowManagerService();
             if (wm != null) {
                 if (enable720p) {
-                    wm.setForcedDisplaySize(Display.DEFAULT_DISPLAY, 720, 1520);
+                    wm.setForcedDisplaySize(Display.DEFAULT_DISPLAY, 720, 1280);
                     wm.setForcedDisplayDensityForUser(Display.DEFAULT_DISPLAY, 280, UserHandle.myUserId());
                 } else {
                     wm.clearForcedDisplaySize(Display.DEFAULT_DISPLAY);
@@ -65,7 +65,7 @@ public class ResolutionTileService extends TileService {
             Log.w(TAG, "IWindowManager call failed, falling back to wm command: " + t.getMessage());
             try {
                 if (enable720p) {
-                    Runtime.getRuntime().exec(new String[]{"wm", "size", "720x1520"}).waitFor();
+                    Runtime.getRuntime().exec(new String[]{"wm", "size", "720x1280"}).waitFor();
                     Runtime.getRuntime().exec(new String[]{"wm", "density", "280"}).waitFor();
                 } else {
                     Runtime.getRuntime().exec(new String[]{"wm", "size", "reset"}).waitFor();
@@ -87,9 +87,9 @@ public class ResolutionTileService extends TileService {
 
         boolean is720p = isCurrently720p();
         tile.setState(is720p ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        tile.setLabel(is720p ? "720p HD+" : "1080p FHD+");
+        tile.setLabel(is720p ? "720p HD" : "1080p FHD");
         try {
-            tile.setSubtitle(is720p ? "Gaming Mode" : "Native Mode");
+            tile.setSubtitle(is720p ? "Performance (16:9)" : "Native (16:9)");
         } catch (Throwable ignored) {
         }
         tile.setIcon(Icon.createWithResource(this, R.drawable.ic_resolution_mode));

@@ -29,17 +29,6 @@
                 android:value="org.lineageos.settings.device.NetworkSettingsActivity" />
         </service>
 
-        <!-- Quick Settings Tile: Performance / Gaming & Battery Saver -->
-        <service
-            android:name=".PerformanceTileService"
-            android:icon="@drawable/ic_performance_mode"
-            android:label="@string/perf_tile_label"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
         <!-- Quick Settings Tile: 720p / 1080p Resolution Switcher -->
         <service
             android:name=".ResolutionTileService"
@@ -78,7 +67,7 @@
             android:name=".BatteryCareService"
             android:exported="false" />
 
-        <!-- Broadcast Receiver for Boot, Power & Headset events -->
+        <!-- Broadcast Receiver for Boot & Power events -->
         <receiver
             android:name=".BatteryCareReceiver"
             android:exported="true">
@@ -86,7 +75,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-                <action android:name="android.intent.action.HEADSET_PLUG" />
             </intent-filter>
         </receiver>
 

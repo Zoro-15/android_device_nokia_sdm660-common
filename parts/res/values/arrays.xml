@@ -44,36 +44,4 @@
         <item>1</item>
         <item>9</item>
     </string-array>
-
-    <!-- Qualcomm LTE Band Locking Profiles -->
-    <string-array name="lte_band_entries">
-        <item>Auto / All Bands (Default Carrier Select)</item>
-        <item>Band 40 (2300 MHz – High Throughput TDD)</item>
-        <item>Band 3 (1800 MHz – Standard 4G FDD)</item>
-        <item>Band 1 (2100 MHz – Core LTE)</item>
-        <item>Band 5 (850 MHz – VoLTE Deep Coverage)</item>
-        <item>Band 8 (900 MHz – Low Band LTE)</item>
-        <item>Band 41 (2500 MHz – BRS High Speed)</item>
-    </string-array>
-    <string-array name="lte_band_values">
-        <item>0</item>
-        <item>40</item>
-        <item>3</item>
-        <item>1</item>
-        <item>5</item>
-        <item>8</item>
-        <item>41</item>
-    </string-array>
-
-    <!-- Performance & Power Profiles -->
-    <string-array name="perf_profile_entries">
-        <item>Balanced (Standard Daily Operation)</item>
-        <item>Gaming / Ultra Performance (588MHz GPU + Max CPU)</item>
-        <item>Extreme Battery Saver (Underclock + Minimal Wakeups)</item>
-    </string-array>
-    <string-array name="perf_profile_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
 </resources>
