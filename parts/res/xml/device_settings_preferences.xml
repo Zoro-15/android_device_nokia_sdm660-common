@@ -2,46 +2,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/device_extras_title">
 
-    <PreferenceCategory
-        android:key="category_kcal"
-        android:title="@string/display_kcal_category">
-        <ListPreference
-            android:key="kcal_preset"
-            android:title="@string/kcal_preset_title"
-            android:summary="@string/kcal_preset_summary"
-            android:entries="@array/kcal_preset_entries"
-            android:entryValues="@array/kcal_preset_values"
-            android:defaultValue="default" />
-
-        <org.lineageos.settings.device.StepperSeekBarPreference
-            android:key="color_temperature"
-            android:title="@string/color_temp_title"
-            android:summary="@string/color_temp_summary"
-            android:defaultValue="6500" />
-
-        <org.lineageos.settings.device.StepperSeekBarPreference
-            android:key="kcal_red"
-            android:title="@string/kcal_red_title"
-            android:defaultValue="256" />
-
-        <org.lineageos.settings.device.StepperSeekBarPreference
-            android:key="kcal_green"
-            android:title="@string/kcal_green_title"
-            android:defaultValue="256" />
-
-        <org.lineageos.settings.device.StepperSeekBarPreference
-            android:key="kcal_blue"
-            android:title="@string/kcal_blue_title"
-            android:defaultValue="256" />
-
-        <org.lineageos.settings.device.StepperSeekBarPreference
-            android:key="kcal_sat"
-            android:title="@string/kcal_sat_title"
-            android:defaultValue="256" />
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/haptics_category">
-        <org.lineageos.settings.device.StepperSeekBarPreference
+        <SeekBarPreference
             android:key="vibrator_intensity"
             android:title="@string/vibrator_intensity_title"
             android:summary="@string/vibrator_intensity_summary"

@@ -43,16 +43,6 @@
     <string name="telemetry_cycles_title">Hardware Charge Cycles</string>
     <string name="telemetry_health_title">Battery Status</string>
 
-    <!-- Display Color Calibration -->
-    <string name="display_kcal_category">Display Color &amp; Calibration</string>
-    <string name="kcal_preset_title">Display Color Preset</string>
-    <string name="kcal_preset_summary">1-tap color calibration presets</string>
-    <string name="color_temp_title">Color Temperature (Warmth)</string>
-    <string name="color_temp_summary">Adjust display color temperature (Kelvin)</string>
-    <string name="kcal_red_title">Red Multiplier</string>
-    <string name="kcal_green_title">Green Multiplier</string>
-    <string name="kcal_blue_title">Blue Multiplier</string>
-    <string name="kcal_sat_title">Color Saturation</string>
 
     <!-- Haptic Feedback -->
     <string name="haptics_category">Haptic Vibration</string>

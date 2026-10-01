@@ -226,13 +226,9 @@ on early-boot
     chmod 0664 /mnt/vendor/persist/sensors/sensors_settings
 
 on boot
-    # Haptics & KCAL permissions (Batch 6)
+    # Haptics permissions (Batch 6)
     chown system system /sys/class/leds/vibrator/vmax_mv
     chmod 0660 /sys/class/leds/vibrator/vmax_mv
-    chown system system /sys/devices/platform/soc/c900000.qcom,mdss_mdp/drm/card0/sde-crtc-0/kcal_rgb
-    chown system system /sys/devices/platform/soc/c900000.qcom,mdss_mdp/drm/card0/sde-crtc-0/kcal_sat
-    chmod 0660 /sys/devices/platform/soc/c900000.qcom,mdss_mdp/drm/card0/sde-crtc-0/kcal_rgb
-    chmod 0660 /sys/devices/platform/soc/c900000.qcom,mdss_mdp/drm/card0/sde-crtc-0/kcal_sat
 
     # Battery Charging Control permissions for DeviceParts (Batch 7)
     chown system system /sys/class/power_supply/battery/battery_charging_enabled

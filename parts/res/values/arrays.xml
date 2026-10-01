@@ -30,21 +30,6 @@
         <item>90</item>
     </string-array>
 
-    <!-- KCAL Display Calibration Presets -->
-    <string-array name="kcal_preset_entries">
-        <item>Default / Balanced (D65)</item>
-        <item>AMOLED Vibrant &amp; Deep Contrast</item>
-        <item>Warm Reading (Eye Care)</item>
-        <item>Cool Daylight (Crisp White)</item>
-        <item>Custom (Manual Adjustment)</item>
-    </string-array>
-    <string-array name="kcal_preset_values">
-        <item>default</item>
-        <item>vibrant</item>
-        <item>warm</item>
-        <item>cool</item>
-        <item>custom</item>
-    </string-array>
 
     <!-- Network Mode Generation Profiles -->
     <string-array name="network_mode_entries">

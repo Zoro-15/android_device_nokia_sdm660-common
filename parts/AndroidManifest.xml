@@ -126,7 +126,7 @@
                 android:resource="@string/network_settings_summary" />
         </activity>
 
-        <!-- Device Extras: Display KCAL, Haptics & Audio Mod -->
+        <!-- Device Extras: Haptics, Audio Mod & Performance -->
         <activity
             android:name=".DeviceSettingsActivity"
             android:icon="@drawable/ic_device_extras_logo"
