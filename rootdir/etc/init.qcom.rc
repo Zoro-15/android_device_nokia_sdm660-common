@@ -237,10 +237,18 @@ on boot
     chmod 0660 /sys/class/power_supply/battery/charging_enabled
     chown system system /sys/class/power_supply/battery/input_suspend
     chmod 0660 /sys/class/power_supply/battery/input_suspend
+    chown system system /sys/class/power_supply/battery/input_current_max
+    chmod 0660 /sys/class/power_supply/battery/input_current_max
+    chown system system /sys/class/power_supply/battery/step_charging_enabled
+    chmod 0660 /sys/class/power_supply/battery/step_charging_enabled
 
     # Blaze Current Limiter permission (Batch 8)
     chown system system /sys/class/power_supply/battery/constant_charge_current_max
     chmod 0660 /sys/class/power_supply/battery/constant_charge_current_max
+    chown system system /sys/class/power_supply/main/constant_charge_current_max
+    chmod 0660 /sys/class/power_supply/main/constant_charge_current_max
+    chown system system /sys/class/power_supply/main/current_max
+    chmod 0660 /sys/class/power_supply/main/current_max
 
     chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
     chown bluetooth net_bt /sys/class/rfkill/rfkill0/type

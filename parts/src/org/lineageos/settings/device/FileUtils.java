@@ -52,9 +52,8 @@ public final class FileUtils {
     }
 
     private static final String[] CHARGING_CONTROL_NODES = {
-        "/sys/class/power_supply/battery/charging_enabled",
         "/sys/class/power_supply/battery/battery_charging_enabled",
-        "/sys/class/power_supply/battery/input_suspend",
+        "/sys/class/power_supply/battery/charging_enabled",
     };
 
     public static String getChargingControlNode() {
@@ -63,26 +62,18 @@ public final class FileUtils {
                 return node;
             }
         }
-        return "/sys/class/power_supply/battery/charging_enabled";
+        return "/sys/class/power_supply/battery/battery_charging_enabled";
     }
 
     public static boolean setChargingEnabled(boolean enable) {
         String node = getChargingControlNode();
-        if (node.endsWith("input_suspend")) {
-            return writeLine(node, enable ? "0" : "1");
-        } else {
-            return writeLine(node, enable ? "1" : "0");
-        }
+        return writeLine(node, enable ? "1" : "0");
     }
 
     public static boolean isChargingEnabled() {
         String node = getChargingControlNode();
         String val = readOneLine(node);
         if (val == null) return true;
-        if (node.endsWith("input_suspend")) {
-            return "0".equals(val.trim());
-        } else {
-            return !"0".equals(val.trim());
-        }
+        return !"0".equals(val.trim());
     }
 }
