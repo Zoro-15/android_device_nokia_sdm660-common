@@ -14,7 +14,7 @@ vendor.camera.skip_unconfigure.packagelist  u:object_r:vendor_camera_prop:s0
 sdm.disable_hdr_lut_gen                 u:object_r:vendor_display_prop:s0
 
 # FIH specific
-ro.product.model.num                     u:object_r:exported_default_prop:s0
+ro.product.model.num                     u:object_r:vendor_default_prop:s0
 
 # Fingerprint
 sys.fp.firmware.version			u:object_r:vendor_fingerprint_prop:s0
