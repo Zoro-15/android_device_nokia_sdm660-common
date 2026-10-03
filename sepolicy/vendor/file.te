@@ -1,5 +1,6 @@
 # FIH Partitions
 type fih_partition, dev_type;
+type custom_ab_block_device, dev_type;
 
 # /dev/elanfp
 type sysfs_fingerprint, sysfs_type, fs_type;

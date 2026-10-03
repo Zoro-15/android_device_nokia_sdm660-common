@@ -271,7 +271,6 @@ PRODUCT_BOOT_JARS += \
 
 # Update engine
 PRODUCT_PACKAGES += \
-    otapreopt_script \
     update_engine \
     update_engine_sideload \
     update_verifier
