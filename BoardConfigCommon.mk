@@ -58,7 +58,6 @@ BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 TARGET_KERNEL_CONFIG := vendor/sdm660-perf_defconfig vendor/nokia/nokia.config
-TARGET_KERNEL_NO_GCC := true
 TARGET_KERNEL_SOURCE := kernel/nokia/sdm660
 
 # Media
