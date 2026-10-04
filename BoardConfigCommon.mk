@@ -95,6 +95,7 @@ BOARD_ROOT_EXTRA_SYMLINKS := \
     /vendor/firmware_mnt:/firmware
 
 # SELinux
+include device/lineage/sepolicy/libion/sepolicy.mk
 include device/qcom/sepolicy-legacy-um/SEPolicy.mk
 include device/lineage/sepolicy/libperfmgr/sepolicy.mk
 BOARD_VENDOR_SEPOLICY_DIRS += $(PLATFORM_PATH)/sepolicy/vendor
