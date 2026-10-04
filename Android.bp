@@ -5,8 +5,8 @@
 
 soong_namespace {
     imports: [
-        "hardware/qcom-caf/msm8998",
-	"vendor/nokia/sdm660-common",
+        "hardware/qcom-caf/sdm660",
+        "vendor/nokia/sdm660-common",
     ],
 }
 
