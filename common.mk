@@ -261,6 +261,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_BOOT_JARS += \
     telephony-ext
 
+# CrashRecovery
+PRODUCT_APEX_SYSTEM_SERVER_JARS += \
+    com.android.crashrecovery:service-crashrecovery
+
+
 # Update engine
 PRODUCT_PACKAGES += \
     update_engine \
