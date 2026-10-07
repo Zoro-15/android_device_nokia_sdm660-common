@@ -262,6 +262,9 @@ PRODUCT_BOOT_JARS += \
     telephony-ext
 
 # CrashRecovery
+PRODUCT_PACKAGES += \
+    com.android.crashrecovery
+
 PRODUCT_APEX_SYSTEM_SERVER_JARS += \
     com.android.crashrecovery:service-crashrecovery
 
