@@ -59,8 +59,7 @@ $(call soong_config_set_bool,QTI_GPT_UTILS,USE_BSG_FRAMEWORK,false)
 # Camera
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider-service_32.lineage \
-    camera.sdm660:32 \
-    get_offsets
+    camera.sdm660:32
 
 # Cgroup and task_profiles
 PRODUCT_COPY_FILES += \
