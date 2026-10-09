@@ -5143,7 +5143,7 @@ int32_t mm_stream_cancel_buf(mm_stream_t * my_obj,
             memset(&arg, 0, sizeof(struct msm_camera_private_ioctl_arg));
             arg.id = MSM_CAMERA_PRIV_IOCTL_ID_RETURN_BUF;
             arg.size = sizeof(struct msm_camera_return_buf);
-            arg.ioctl_ptr = (uint32_t) &bufid;
+            arg.ioctl_ptr = (uintptr_t) &bufid;
 
 
             rc = ioctl(my_obj->fd, VIDIOC_MSM_CAMERA_PRIVATE_IOCTL_CMD, &arg);
