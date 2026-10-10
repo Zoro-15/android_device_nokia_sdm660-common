@@ -468,12 +468,10 @@ vendor/bin/qseecomd|1ebf6ff17b21c5374fa0192a9bea1f89ac8fd19d
 vendor/etc/init/qseecomd.rc|3857a18de07bcbf8296c280f02c40e9674e522ec
 vendor/etc/init/vendor.qti.hardware.qseecom@1.0-service.rc|0f43244d70d5efc1e4f089b926a9dc4f59e53db1
 vendor/lib/libQSEEComAPI.so|9b9da7d1ad2465cf5411f59b2a2f9413a1694b58
-vendor/lib/libdisplayconfig.qti.so|ad437d7ef966f7b11858053a005ced4da4be66f5
 vendor/lib64/hw/vendor.qti.hardware.qseecom@1.0-impl.so|a0950b63719a54dce170f69c512db3ff5a93b06b
 vendor/lib64/libGPreqcancel.so|b4540426976608f8e72e863a34fbee03a08f8fc3
 vendor/lib64/libGPreqcancel_svc.so|fdeb8d658b8817ed921d7197b2f6326e56de0ffc
 vendor/lib64/libQSEEComAPI.so|cdc34a4e48a34ee4e70c5d7a90060f102ce18183
-vendor/lib64/libdisplayconfig.qti.so|3db86310e0065d45e3ba66212e1ddaaa78e65eb2
 vendor/lib64/libdrmfs.so|40e0ea780e85a17a6f9f1a184828c2e8f2283b87
 vendor/lib64/libdrmtime.so|5876ac16062d1d97e38a061adb93b2a56f1699b9
 vendor/lib64/librpmb.so|f0c24388e57432f43fbeb2cce492fc9f2be9ba26
