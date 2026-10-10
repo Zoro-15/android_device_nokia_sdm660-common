@@ -126,6 +126,7 @@ cc_library_shared {
     ],
 
     include_dirs: [
+        "device/nokia/sdm660-common/camera/mm-image-codec/qomx_core",
         "system/memory/libion/include",
         "system/memory/libion/kernel-headers",
     ],
@@ -133,6 +134,8 @@ cc_library_shared {
     local_include_dirs: [
         "HAL",
         "HAL3",
+        "stack/mm-camera-interface/inc",
+        "stack/mm-jpeg-interface/inc",
         "util",
     ],
 
