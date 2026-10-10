@@ -1,1 +1,1 @@
-allow hal_imsrtp diag_device:chr_file { read write };
+# Type hal_imsrtp is obsolete in Android 16 (handled by vendor IMS policies)
