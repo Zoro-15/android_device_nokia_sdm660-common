@@ -1,6 +1,9 @@
 cc_library_headers {
     name: "camera_common_headers",
-    export_include_dirs: ["stack/common"],
+    export_include_dirs: [
+        "stack/common",
+        "stack/common/leak",
+    ],
 }
 
 cc_library_shared {
@@ -91,6 +94,8 @@ cc_library_shared {
         "-Wextra",
         "-Werror",
         "-Wno-compound-token-split-by-macro",
+        "-Wno-error=unused-but-set-variable",
+        "-Wno-unused-but-set-variable",
         "-DFDLEAK_FLAG",
         "-DMEMLEAK_FLAG",
         "-DQCAMERA_HAL1_SUPPORT",
@@ -134,6 +139,7 @@ cc_library_shared {
     local_include_dirs: [
         "HAL",
         "HAL3",
+        "stack/common/leak",
         "stack/mm-camera-interface/inc",
         "stack/mm-jpeg-interface/inc",
         "util",
