@@ -34,3 +34,6 @@ type sysfs_graphics, sysfs_type, fs_type;
 # firmware
 type firmware_file, fs_type, contextmount_type;
 type bt_firmware_file, fs_type, contextmount_type;
+
+# usb supply
+type sysfs_usb_supply, sysfs_type, fs_type;
