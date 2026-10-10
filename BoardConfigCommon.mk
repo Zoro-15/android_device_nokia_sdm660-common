@@ -131,3 +131,7 @@ WPA_SUPPLICANT_VERSION := VER_0_8_X
 
 # inherit from the proprietary version
 include vendor/nokia/sdm660-common/BoardConfigVendor.mk
+
+# Filter out modern QTI display namespace (sdm660 uses hardware/qcom-caf/sdm660/display)
+PRODUCT_SOONG_NAMESPACES := $(filter-out vendor/qcom/opensource/display,$(PRODUCT_SOONG_NAMESPACES))
+

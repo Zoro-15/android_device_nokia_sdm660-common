@@ -6,6 +6,9 @@
 # Add common definitions for Qualcomm
 $(call inherit-product, hardware/qcom-caf/common/common.mk)
 
+# Filter out modern QTI display namespace (sdm660 uses hardware/qcom-caf/sdm660/display)
+PRODUCT_SOONG_NAMESPACES := $(filter-out vendor/qcom/opensource/display,$(PRODUCT_SOONG_NAMESPACES))
+
 
 PRODUCT_PACKAGES += \
     android.hardware.audio@6.0-impl \
