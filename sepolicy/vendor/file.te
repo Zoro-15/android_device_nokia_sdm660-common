@@ -37,3 +37,6 @@ type bt_firmware_file, fs_type, contextmount_type;
 
 # usb supply
 type sysfs_usb_supply, sysfs_type, fs_type;
+
+# NFC
+type nfc_vendor_data_file, file_type, data_file_type;

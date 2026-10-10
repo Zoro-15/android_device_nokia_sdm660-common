@@ -18,6 +18,7 @@
 # NFC
 /dev/sec-nfc              u:object_r:sec_device:s0
 /(vendor|system/vendor)/bin/hw/android\.hardware\.nfc@1\.2-service\.samsung       u:object_r:hal_nfc_default_exec:s0
+/data/vendor/nfc(/.*)?    u:object_r:nfc_vendor_data_file:s0
 
 # Partitions (A/B)
 /dev/block/platform/soc/c0c4000\.sdhci/by-name/cda_[ab]                        u:object_r:custom_ab_block_device:s0
