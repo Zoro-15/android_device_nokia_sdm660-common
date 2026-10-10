@@ -8,6 +8,7 @@ soong_namespace {
         "hardware/qcom-caf/sdm660",
         "vendor/nokia/sdm660-common",
         "vendor/qcom/opensource/commonsys-intf/display",
+        "vendor/qcom/opensource/display",
     ],
 }
 
