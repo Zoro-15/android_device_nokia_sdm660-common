@@ -40,3 +40,6 @@ type sysfs_usb_supply, sysfs_type, fs_type;
 
 # NFC
 type nfc_vendor_data_file, file_type, data_file_type;
+
+# hvdcp (legacy domain compatibility)
+type hvdcp, domain;
