@@ -1,4 +1,0 @@
-r_dir_file(thermal-engine, sysfs_devfreq);
-
-dontaudit thermal-engine sysfs:dir read;
-dontaudit thermal-engine sysfs:file read;
