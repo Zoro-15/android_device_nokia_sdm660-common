@@ -45,3 +45,6 @@ type nfc_vendor_data_file, file_type, data_file_type;
 # hvdcp & sensors (legacy domain compatibility)
 type hvdcp, domain;
 type sensors, domain;
+
+# dsp
+type adsprpcd_file, file_type;
