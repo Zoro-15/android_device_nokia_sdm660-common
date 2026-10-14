@@ -11,12 +11,10 @@ public class ThermalChargingService {
 
     // Battery profile fast charge current (votes BATT_PROFILE_VOTER on fcc_votable)
     public static final String BATT_FCC_NODE = "/sys/class/power_supply/battery/constant_charge_current_max";
-    // Input current limit node (sets smblib_set_icl_current AND clears THERMAL_DAEMON_VOTER)
-    public static final String BATT_ICL_NODE = "/sys/class/power_supply/battery/input_current_max";
     // Direct hardware FCC node in PM660
     public static final String MAIN_FCC_NODE = "/sys/class/power_supply/main/constant_charge_current_max";
-    // Direct hardware ICL node in PM660
-    public static final String MAIN_ICL_NODE = "/sys/class/power_supply/main/current_max";
+    // System temp level (clears THERMAL_DAEMON_VOTER cleanly when 0 without overriding ICL)
+    public static final String SYS_TEMP_LEVEL_NODE = "/sys/class/power_supply/battery/system_temp_level";
     // Step charging enable node (controls step-chg-jeita clamp)
     public static final String STEP_CHG_NODE = "/sys/class/power_supply/battery/step_charging_enabled";
     // Battery temperature node (in tenths of a degree Celsius, e.g. 420 = 42.0 C)
@@ -28,6 +26,32 @@ public class ThermalChargingService {
 
     public static void evaluate(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        // Check if manual bypass charging is active
+        boolean isBypassActive = prefs.getBoolean("bypass_charging_enabled", false);
+        if (isBypassActive) {
+            Log.d(TAG, "Manual Bypass active (0mA); enforcing FCC 0uA.");
+            applyChargingCurrent(0);
+            return;
+        }
+
+        // Check if battery stop level (limit charging) is holding at threshold
+        int stopThreshold = 80;
+        try {
+            stopThreshold = Integer.parseInt(prefs.getString("battery_stop_level", "80"));
+        } catch (Exception e) {
+            stopThreshold = 80;
+        }
+
+        if (stopThreshold > 0) {
+            int currentCapacity = FileUtils.readInt("/sys/class/power_supply/battery/capacity", -1);
+            if (currentCapacity >= stopThreshold) {
+                Log.d(TAG, "Battery level (" + currentCapacity + "%) >= stop limit (" + stopThreshold + "%); holding at bypass 0mA.");
+                applyChargingCurrent(0);
+                return;
+            }
+        }
+
         boolean isBlazeEnabled = prefs.getBoolean(PREF_BLAZE_ENABLED, true);
 
         int userCurrent = 2000000;
@@ -62,27 +86,27 @@ public class ThermalChargingService {
     }
 
     private static void applyChargingCurrent(int currentUa) {
-        // 1. Set battery profile fast charge current
+        // 0. Ensure buck switching converter stays enabled (powers motherboard from charger)
+        String chgNode = FileUtils.getChargingControlNode();
+        if (FileUtils.fileExists(chgNode)) {
+            FileUtils.writeLine(chgNode, "1");
+        }
+        // 1. Set battery profile fast charge current (votes BATT_PROFILE_VOTER on fcc_votable)
         if (FileUtils.fileExists(BATT_FCC_NODE)) {
             FileUtils.writeLine(BATT_FCC_NODE, currentUa);
         }
 
-        // 2. Set charger input current limit (also clears THERMAL_DAEMON_VOTER in kernel)
-        if (FileUtils.fileExists(BATT_ICL_NODE)) {
-            FileUtils.writeLine(BATT_ICL_NODE, currentUa);
-        }
-
-        // 3. Set main charger direct hardware FCC
+        // 2. Set main charger direct hardware FCC
         if (FileUtils.fileExists(MAIN_FCC_NODE)) {
             FileUtils.writeLine(MAIN_FCC_NODE, currentUa);
         }
 
-        // 4. Set main charger direct hardware ICL
-        if (FileUtils.fileExists(MAIN_ICL_NODE)) {
-            FileUtils.writeLine(MAIN_ICL_NODE, currentUa);
+        // 3. Clear thermal mitigation restriction in kernel for maximum profile performance
+        if (FileUtils.fileExists(SYS_TEMP_LEVEL_NODE)) {
+            FileUtils.writeLine(SYS_TEMP_LEVEL_NODE, 0);
         }
 
-        // 5. If Turbo (>= 3000mA), disable step-charging voltage clamp so current isn't throttled to 1.5A
+        // 4. If Turbo (>= 3000mA), disable step-charging voltage clamp so current isn't throttled
         // If lower profile or cooldown, keep step-charging active
         if (FileUtils.fileExists(STEP_CHG_NODE)) {
             FileUtils.writeLine(STEP_CHG_NODE, currentUa >= 3000000 ? 0 : 1);

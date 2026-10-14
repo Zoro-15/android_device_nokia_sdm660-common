@@ -245,6 +245,8 @@ on boot
     # Blaze Current Limiter permission (Batch 8)
     chown system system /sys/class/power_supply/battery/constant_charge_current_max
     chmod 0660 /sys/class/power_supply/battery/constant_charge_current_max
+    chown system system /sys/class/power_supply/battery/system_temp_level
+    chmod 0660 /sys/class/power_supply/battery/system_temp_level
     chown system system /sys/class/power_supply/main/constant_charge_current_max
     chmod 0660 /sys/class/power_supply/main/constant_charge_current_max
     chown system system /sys/class/power_supply/main/current_max

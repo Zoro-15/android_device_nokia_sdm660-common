@@ -29,9 +29,9 @@ public class BatteryCareService extends Service {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             boolean isBypassActive = prefs.getBoolean(PREF_BYPASS_CHARGING, false);
 
-            // If manual bypass charging is active, charging remains strictly disabled (0mA)
+            // If manual bypass charging is active, hold bypass 0mA
             if (isBypassActive) {
-                FileUtils.setChargingEnabled(false);
+                FileUtils.setBypassMode(context, true);
                 return;
             }
 
@@ -45,19 +45,20 @@ public class BatteryCareService extends Service {
             // 0 means disabled / off (unlimited charging to 100%)
             if (stopThreshold > 0) {
                 if (percent >= stopThreshold) {
-                    // Reached stop threshold: cutoff charging to protect battery lifespan
-                    FileUtils.setChargingEnabled(false);
-                    Log.d(TAG, "Battery level " + percent + "% >= threshold " + stopThreshold + "%, charging stopped.");
+                    // Reached stop threshold: hold at limit with AC bypass (0mA) without micro-cycles
+                    FileUtils.setBypassMode(context, true);
+                    Log.d(TAG, "Battery level " + percent + "% >= threshold " + stopThreshold + "%, holding at bypass 0mA.");
+                    return;
                 } else if (percent <= (stopThreshold - 2)) {
-                    // 2% hysteresis: prevent rapid toggle oscillation
-                    FileUtils.setChargingEnabled(true);
+                    // 2% hysteresis: resume charging
+                    FileUtils.setBypassMode(context, false);
                 }
             } else {
                 // Unlimited charging
-                FileUtils.setChargingEnabled(true);
+                FileUtils.setBypassMode(context, false);
             }
 
-            // Batch 8: Evaluate Blaze Dynamic Thermal Charging Engine
+            // Evaluate Blaze Dynamic Thermal Charging Engine
             ThermalChargingService.evaluate(context);
         }
     };

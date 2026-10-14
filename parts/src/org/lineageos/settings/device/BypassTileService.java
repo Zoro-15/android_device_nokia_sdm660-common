@@ -25,14 +25,12 @@ public class BypassTileService extends TileService {
         boolean currentlyBypassed = prefs.getBoolean(PREF_BYPASS_CHARGING, false);
         boolean newBypassState = !currentlyBypassed;
 
-        // Bypass ON means charging is DISABLED (setChargingEnabled(false))
-        // Bypass OFF means charging is ENABLED (setChargingEnabled(true))
-        boolean success = FileUtils.setChargingEnabled(!newBypassState);
+        prefs.edit().putBoolean(PREF_BYPASS_CHARGING, newBypassState).apply();
+        boolean success = FileUtils.setBypassMode(this, newBypassState);
         if (success) {
-            prefs.edit().putBoolean(PREF_BYPASS_CHARGING, newBypassState).apply();
-            Log.i(TAG, "Bypass charging toggled: " + (newBypassState ? "ACTIVE (0mA)" : "INACTIVE (charging resumed)"));
+            Log.i(TAG, "Bypass charging toggled: " + (newBypassState ? "ACTIVE (0mA AC Direct)" : "INACTIVE (charging resumed)"));
         } else {
-            Log.e(TAG, "Failed to write bypass state for " + FileUtils.getChargingControlNode());
+            Log.e(TAG, "Failed to apply bypass state");
         }
         updateTile();
     }
@@ -41,11 +39,7 @@ public class BypassTileService extends TileService {
         Tile tile = getQsTile();
         if (tile == null) return;
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean bypassed = prefs.getBoolean(PREF_BYPASS_CHARGING, false);
-
-        // Hardware verification fallback
-        bypassed = !FileUtils.isChargingEnabled();
+        boolean bypassed = FileUtils.isBypassActive(this);
 
         tile.setState(bypassed ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
         tile.setIcon(Icon.createWithResource(this, R.drawable.ic_bypass_charging));
