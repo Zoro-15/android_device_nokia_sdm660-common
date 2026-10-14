@@ -450,3 +450,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/privapp-permissions-parts.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/privapp-permissions-parts.xml
 
+# Dolby Atmos Sound Enhancement
+$(call inherit-product-if-exists, vendor/dolby/dolby.mk)
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.audio.effect.dolby=true \
+    vendor.audio.dolby.ds2.enabled=true \
+    vendor.audio.dolby.ds2.hardbypass=false
+
