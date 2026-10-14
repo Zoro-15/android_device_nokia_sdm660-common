@@ -10,7 +10,6 @@ import androidx.preference.PreferenceManager;
 
 public class BypassTileService extends TileService {
     private static final String TAG = "BypassTileService";
-    public static final String PREF_BYPASS_CHARGING = "bypass_charging_enabled";
 
     @Override
     public void onStartListening() {
@@ -22,11 +21,11 @@ public class BypassTileService extends TileService {
     public void onClick() {
         super.onClick();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean currentlyBypassed = prefs.getBoolean(PREF_BYPASS_CHARGING, false);
+        boolean currentlyBypassed = prefs.getBoolean(ThermalChargingService.PREF_BYPASS_CHARGING, false);
         boolean newBypassState = !currentlyBypassed;
 
-        prefs.edit().putBoolean(PREF_BYPASS_CHARGING, newBypassState).apply();
-        boolean success = FileUtils.setBypassMode(this, newBypassState);
+        prefs.edit().putBoolean(ThermalChargingService.PREF_BYPASS_CHARGING, newBypassState).apply();
+        boolean success = ThermalChargingService.setBypassMode(this, newBypassState);
         if (success) {
             Log.i(TAG, "Bypass charging toggled: " + (newBypassState ? "ACTIVE (0mA AC Direct)" : "INACTIVE (charging resumed)"));
         } else {
@@ -39,7 +38,7 @@ public class BypassTileService extends TileService {
         Tile tile = getQsTile();
         if (tile == null) return;
 
-        boolean bypassed = FileUtils.isBypassActive(this);
+        boolean bypassed = ThermalChargingService.isBypassActive(this);
 
         tile.setState(bypassed ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
         tile.setIcon(Icon.createWithResource(this, R.drawable.ic_bypass_charging));

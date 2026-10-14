@@ -46,8 +46,6 @@
     <string name="vibrator_intensity_title">Haptic Feedback Intensity</string>
     <string name="vibrator_intensity_summary">Vibration motor voltage level (default: 2100mV gentle)</string>
 
-    <!-- Display Resolution -->
-    <string name="resolution_tile_label">Resolution</string>
 
     <!-- Network Mode Controls -->
     <string name="network_mode_tile_label">Network Mode</string>

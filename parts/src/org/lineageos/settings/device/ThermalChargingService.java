@@ -6,6 +6,12 @@ import android.util.Log;
 
 import androidx.preference.PreferenceManager;
 
+/**
+ * Single controller for all charging hardware manipulation on Nokia 6.1 (SDM660 / PM660):
+ * - PM660 Hardware Bypass Charging (clamping Fast Charge Current to 0uA while keeping buck switcher active)
+ * - Battery Care stop limit (default 95%)
+ * - Blaze Dynamic Thermal Charging Engine & static charging speed profiles
+ */
 public class ThermalChargingService {
     private static final String TAG = "ThermalChargingService";
 
@@ -13,38 +19,92 @@ public class ThermalChargingService {
     public static final String BATT_FCC_NODE = "/sys/class/power_supply/battery/constant_charge_current_max";
     // Direct hardware FCC node in PM660
     public static final String MAIN_FCC_NODE = "/sys/class/power_supply/main/constant_charge_current_max";
+    // Buck switching converter charging enable nodes
+    public static final String BATT_CHARGING_ENABLED_NODE = "/sys/class/power_supply/battery/battery_charging_enabled";
+    public static final String CHARGING_ENABLED_NODE = "/sys/class/power_supply/battery/charging_enabled";
     // System temp level (clears THERMAL_DAEMON_VOTER cleanly when 0 without overriding ICL)
     public static final String SYS_TEMP_LEVEL_NODE = "/sys/class/power_supply/battery/system_temp_level";
     // Step charging enable node (controls step-chg-jeita clamp)
     public static final String STEP_CHG_NODE = "/sys/class/power_supply/battery/step_charging_enabled";
     // Battery temperature node (in tenths of a degree Celsius, e.g. 420 = 42.0 C)
     public static final String TEMP_NODE = "/sys/class/power_supply/battery/temp";
+    // Battery capacity level (%)
+    public static final String CAPACITY_NODE = "/sys/class/power_supply/battery/capacity";
 
     public static final String PREF_BLAZE_ENABLED = "blaze_thermal_engine_enabled";
     public static final String PREF_CHARGING_PROFILE = "charging_current_profile";
     public static final String PREF_THERMAL_THRESHOLD = "thermal_threshold_celsius";
+    public static final String PREF_BATTERY_STOP_LEVEL = "battery_stop_level";
+    public static final String PREF_BYPASS_CHARGING = "bypass_charging_enabled";
+
+    private static final String[] CHARGING_CONTROL_NODES = {
+        BATT_CHARGING_ENABLED_NODE,
+        CHARGING_ENABLED_NODE,
+    };
+
+    public static String getChargingControlNode() {
+        for (String node : CHARGING_CONTROL_NODES) {
+            if (FileUtils.fileExists(node)) {
+                return node;
+            }
+        }
+        return BATT_CHARGING_ENABLED_NODE;
+    }
+
+    /**
+     * Controls true hardware bypass mode on Qualcomm PM660:
+     * - Keeps the buck switching converter ACTIVE (1) so USB power supplies VPH_PWR (motherboard/CPU/display).
+     * - Clamps Fast Charge Current (FCC) to 0uA so 0mA flows into the battery cell.
+     * - If load spikes above charger capacity, PMIC BATFET automatically supplements from battery.
+     */
+    public static boolean setBypassMode(Context context, boolean bypass) {
+        if (bypass) {
+            applyChargingCurrent(0);
+            Log.i(TAG, "Bypass charging ACTIVE: Buck switcher ON (VPH_PWR), FCC clamped to 0uA");
+            return true;
+        } else {
+            Log.i(TAG, "Bypass charging INACTIVE: Resuming user charging profile");
+            if (context != null) {
+                evaluate(context);
+            } else {
+                applyChargingCurrent(2000000);
+            }
+            return true;
+        }
+    }
+
+    public static boolean isBypassActive(Context context) {
+        if (context != null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            if (prefs.getBoolean(PREF_BYPASS_CHARGING, false)) {
+                return true;
+            }
+        }
+        int fcc = FileUtils.readInt(BATT_FCC_NODE, -1);
+        return fcc == 0;
+    }
 
     public static void evaluate(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         // Check if manual bypass charging is active
-        boolean isBypassActive = prefs.getBoolean("bypass_charging_enabled", false);
-        if (isBypassActive) {
+        boolean isBypass = prefs.getBoolean(PREF_BYPASS_CHARGING, false);
+        if (isBypass) {
             Log.d(TAG, "Manual Bypass active (0mA); enforcing FCC 0uA.");
             applyChargingCurrent(0);
             return;
         }
 
-        // Check if battery stop level (limit charging) is holding at threshold
-        int stopThreshold = 80;
+        // Check if battery stop level (limit charging) is holding at threshold (default 95%)
+        int stopThreshold = 95;
         try {
-            stopThreshold = Integer.parseInt(prefs.getString("battery_stop_level", "80"));
+            stopThreshold = Integer.parseInt(prefs.getString(PREF_BATTERY_STOP_LEVEL, "95"));
         } catch (Exception e) {
-            stopThreshold = 80;
+            stopThreshold = 95;
         }
 
         if (stopThreshold > 0) {
-            int currentCapacity = FileUtils.readInt("/sys/class/power_supply/battery/capacity", -1);
+            int currentCapacity = FileUtils.readInt(CAPACITY_NODE, -1);
             if (currentCapacity >= stopThreshold) {
                 Log.d(TAG, "Battery level (" + currentCapacity + "%) >= stop limit (" + stopThreshold + "%); holding at bypass 0mA.");
                 applyChargingCurrent(0);
@@ -85,12 +145,13 @@ public class ThermalChargingService {
         }
     }
 
-    private static void applyChargingCurrent(int currentUa) {
+    public static void applyChargingCurrent(int currentUa) {
         // 0. Ensure buck switching converter stays enabled (powers motherboard from charger)
-        String chgNode = FileUtils.getChargingControlNode();
+        String chgNode = getChargingControlNode();
         if (FileUtils.fileExists(chgNode)) {
             FileUtils.writeLine(chgNode, "1");
         }
+
         // 1. Set battery profile fast charge current (votes BATT_PROFILE_VOTER on fcc_votable)
         if (FileUtils.fileExists(BATT_FCC_NODE)) {
             FileUtils.writeLine(BATT_FCC_NODE, currentUa);

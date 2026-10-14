@@ -28,7 +28,7 @@
         android:summary="@string/battery_care_summary"
         android:entries="@array/stop_level_entries"
         android:entryValues="@array/stop_level_values"
-        android:defaultValue="80" />
+        android:defaultValue="95" />
 
     <!-- Static Charging Profiles: Always available regardless of Blaze switch -->
     <ListPreference

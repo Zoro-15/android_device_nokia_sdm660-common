@@ -17,9 +17,10 @@
         <item>Off (Charge to 100%)</item>
         <item>70%</item>
         <item>75%</item>
-        <item>80% (Recommended)</item>
+        <item>80%</item>
         <item>85%</item>
         <item>90%</item>
+        <item>95% (Recommended)</item>
     </string-array>
     <string-array name="stop_level_values">
         <item>0</item>
@@ -28,6 +29,7 @@
         <item>80</item>
         <item>85</item>
         <item>90</item>
+        <item>95</item>
     </string-array>
 
 

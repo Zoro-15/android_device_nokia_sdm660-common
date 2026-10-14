@@ -14,8 +14,6 @@ import androidx.preference.PreferenceManager;
 
 public class BatteryCareService extends Service {
     private static final String TAG = "BatteryCareService";
-    public static final String PREF_BATTERY_STOP_LEVEL = "battery_stop_level";
-    public static final String PREF_BYPASS_CHARGING = "bypass_charging_enabled";
 
     private final BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
         @Override
@@ -27,35 +25,35 @@ public class BatteryCareService extends Service {
             int percent = (level * 100) / (scale == 0 ? 100 : scale);
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            boolean isBypassActive = prefs.getBoolean(PREF_BYPASS_CHARGING, false);
+            boolean isBypassActive = prefs.getBoolean(ThermalChargingService.PREF_BYPASS_CHARGING, false);
 
             // If manual bypass charging is active, hold bypass 0mA
             if (isBypassActive) {
-                FileUtils.setBypassMode(context, true);
+                ThermalChargingService.setBypassMode(context, true);
                 return;
             }
 
-            int stopThreshold = 80;
+            int stopThreshold = 95;
             try {
-                stopThreshold = Integer.parseInt(prefs.getString(PREF_BATTERY_STOP_LEVEL, "80"));
+                stopThreshold = Integer.parseInt(prefs.getString(ThermalChargingService.PREF_BATTERY_STOP_LEVEL, "95"));
             } catch (Exception e) {
-                stopThreshold = 80;
+                stopThreshold = 95;
             }
 
             // 0 means disabled / off (unlimited charging to 100%)
             if (stopThreshold > 0) {
                 if (percent >= stopThreshold) {
                     // Reached stop threshold: hold at limit with AC bypass (0mA) without micro-cycles
-                    FileUtils.setBypassMode(context, true);
+                    ThermalChargingService.setBypassMode(context, true);
                     Log.d(TAG, "Battery level " + percent + "% >= threshold " + stopThreshold + "%, holding at bypass 0mA.");
                     return;
                 } else if (percent <= (stopThreshold - 2)) {
                     // 2% hysteresis: resume charging
-                    FileUtils.setBypassMode(context, false);
+                    ThermalChargingService.setBypassMode(context, false);
                 }
             } else {
                 // Unlimited charging
-                FileUtils.setBypassMode(context, false);
+                ThermalChargingService.setBypassMode(context, false);
             }
 
             // Evaluate Blaze Dynamic Thermal Charging Engine

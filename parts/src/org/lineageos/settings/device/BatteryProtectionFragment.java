@@ -89,7 +89,7 @@ public class BatteryProtectionFragment extends PreferenceFragmentCompat
 
     private void updateTelemetry() {
         if (mCurrentPref != null) {
-            boolean isBypassed = FileUtils.isBypassActive(getContext());
+            boolean isBypassed = ThermalChargingService.isBypassActive(getContext());
             if (isBypassed) {
                 mCurrentPref.setSummary("0 mA (Bypass Active – AC Direct)");
             } else {
@@ -133,7 +133,7 @@ public class BatteryProtectionFragment extends PreferenceFragmentCompat
         if (KEY_BYPASS.equals(key)) {
             boolean bypassed = (Boolean) newValue;
             preference.getSharedPreferences().edit().putBoolean(KEY_BYPASS, bypassed).apply();
-            FileUtils.setBypassMode(getContext(), bypassed);
+            ThermalChargingService.setBypassMode(getContext(), bypassed);
             updateTelemetry();
             return true;
         } else if (KEY_CURRENT_PROFILE.equals(key)) {
