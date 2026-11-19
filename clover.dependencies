@@ -1,0 +1,7 @@
+[
+  {
+    "repository": "android_kernel_nokia_sdm660_419",
+    "target_path": "kernel/nokia/sdm660",
+    "branch": "lineage-23.2"
+  }
+]
