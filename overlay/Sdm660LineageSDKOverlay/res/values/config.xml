@@ -49,4 +49,7 @@
          pulsating and RGB control would set this config to 75. -->
     <integer name="config_deviceLightCapabilities">0</integer>
 
+    <!-- Disable window blurs by default to match native SurfaceFlinger state -->
+    <bool name="config_windowBlursDefault">false</bool>
+
 </resources>
