@@ -5,21 +5,31 @@ ro.bpf.kver_override=5.10.239
 ro.telephony.block_binder_thread_on_incoming_calls=false
 
 # LMKD
-ro.lmk.low=1001
-ro.lmk.medium=800
-ro.lmk.critical=0
-ro.lmk.critical_upgrade=false
-ro.lmk.upgrade_pressure=100
-ro.lmk.downgrade_pressure=100
 ro.lmk.kill_heaviest_task=true
 ro.lmk.kill_timeout_ms=100
-ro.lmk.use_minfree_levels=true
+ro.lmk.use_minfree_levels=false
 ro.lmk.use_new_strategy=true
+ro.lmk.thrashing_limit=30
+ro.lmk.thrashing_limit_decay=50
+ro.lmk.psi_partial_stall_ms=70
+ro.lmk.psi_complete_stall_ms=700
+ro.lmk.swap_util_max=90
+ro.lmk.swap_free_low_percentage=15
 
 # SurfaceFlinger Blur Elimination (Treble product namespace)
 persist.sys.sf.disable_blurs=1
 ro.surface_flinger.supports_background_blur=0
 ro.sf.blurs_are_expensive=1
+
+# ART Madvise Tuning (Prevent 100MB pagecache prefetch on app launch)
+dalvik.vm.madvise.vdexfile.size=16777216
+dalvik.vm.madvise.odexfile.size=16777216
+dalvik.vm.madvise.artfile.size=16777216
+
+# Compiler thread and memory caps
+dalvik.vm.dex2oat-threads=4
+dalvik.vm.dex2oat-Xmx=384m
+dalvik.vm.image-dex2oat-Xmx=384m
 
 # Dexopt
 pm.dexopt.first-boot=speed-profile
