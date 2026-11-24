@@ -171,7 +171,7 @@ function sdm630_sched_schedutil_dcvs() {
         # configure governor settings for big cluster
         echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
         echo 0 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/up_rate_limit_us
-        echo 0 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/down_rate_limit_us
+        echo 20000 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/down_rate_limit_us
         echo 2016000 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_freq
         echo 0 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/pl
         echo 787200 > /sys/devices/system/cpu/cpufreq/policy0/scaling_min_freq
@@ -180,7 +180,7 @@ function sdm630_sched_schedutil_dcvs() {
         # configure governor settings for little cluster
         echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy4/scaling_governor
         echo 0 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/up_rate_limit_us
-        echo 0 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/down_rate_limit_us
+        echo 10000 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/down_rate_limit_us
         echo 1536000 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_freq
         echo 0 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/pl
         echo 614400 > /sys/devices/system/cpu/cpufreq/policy4/scaling_min_freq
@@ -200,14 +200,18 @@ function sdm630_sched_schedutil_dcvs() {
     fi
 
     echo 1 > /proc/sys/kernel/sched_walt_rotate_big_tasks
+    echo 15 > /proc/sys/kernel/sched_coloc_busy_hysteresis_enable_cpus
+    echo 39000000 > /proc/sys/kernel/sched_coloc_busy_hyst_ns
 
     #if the kernel version >=4.19,set input_boost_freq accordingly
     if [ $KernelVersionA -ge 4 ] && [ $KernelVersionB -ge 19 ]; then
-        echo "0:2016000" > /sys/devices/system/cpu/cpu_boost/input_boost_freq
-        echo 40 > /sys/devices/system/cpu/cpu_boost/input_boost_ms
+        echo "0:1670400 4:1382400" > /sys/devices/system/cpu/cpu_boost/input_boost_freq
+        echo 300 > /sys/devices/system/cpu/cpu_boost/input_boost_ms
+        echo 1 > /sys/devices/system/cpu/cpu_boost/sched_boost_on_input
     else
-        echo "0:2016000" > /sys/module/cpu_boost/parameters/input_boost_freq
-        echo 40 > /sys/module/cpu_boost/parameters/input_boost_ms
+        echo "0:1670400 4:1382400" > /sys/module/cpu_boost/parameters/input_boost_freq
+        echo 300 > /sys/module/cpu_boost/parameters/input_boost_ms
+        echo 1 > /sys/module/cpu_boost/parameters/sched_boost_on_input
     fi
 
     # sched_load_boost as -6 is equivalent to target load as 85. It is per cpu tunable.
@@ -265,6 +269,14 @@ function sdm630_sched_schedutil_dcvs() {
         setprop vendor.dcvs.prop 1
     fi
 
+    # Set mq-deadline I/O scheduler to reduce eMMC queue latency
+    if [ -f /sys/block/mmcblk0/queue/scheduler ]; then
+        echo mq-deadline > /sys/block/mmcblk0/queue/scheduler
+    fi
+
+    # Wake kswapd early to prevent direct memory reclaim stalls
+    echo 100 > /proc/sys/vm/watermark_scale_factor
+    echo 10 > /proc/sys/vm/dirty_ratio
 }
 
 function sdm660_sched_interactive_dcvs() {
@@ -409,6 +421,8 @@ function sdm660_sched_schedutil_dcvs() {
     fi
 
     echo 1 > /proc/sys/kernel/sched_walt_rotate_big_tasks
+    echo 240 > /proc/sys/kernel/sched_coloc_busy_hysteresis_enable_cpus
+    echo 39000000 > /proc/sys/kernel/sched_coloc_busy_hyst_ns
 
     #if the kernel version >=4.19,set input_boost_freq accordingly
     if [ $KernelVersionA -ge 4 ] && [ $KernelVersionB -ge 19 ]; then
@@ -549,9 +563,9 @@ case "$target" in
 
             # Setting b.L scheduler parameters
             echo 85 > /proc/sys/kernel/sched_upmigrate
-            echo 85 > /proc/sys/kernel/sched_downmigrate
+            echo 65 > /proc/sys/kernel/sched_downmigrate
             echo 900 > /proc/sys/kernel/sched_group_upmigrate
-            echo 900 > /proc/sys/kernel/sched_group_downmigrate
+            echo 700 > /proc/sys/kernel/sched_group_downmigrate
 
             #init task load, restrict wakeups to preferred cluster
             echo 15 > /proc/sys/kernel/sched_init_task_load

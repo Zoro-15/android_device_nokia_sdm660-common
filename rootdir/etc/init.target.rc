@@ -96,6 +96,9 @@ on property:sys.boot_completed=1
     write /dev/cpuset/system-background/cpus 0-2
     write /dev/cpuset/restricted/cpus 2-5
 
+    # Colocate top-app tasks onto Big cluster
+    write /dev/stune/top-app/schedtune.colocate 1
+
     # Configure virtual memory and dirty page writeback
     write /proc/sys/vm/swappiness 100
     write /proc/sys/vm/dirty_background_ratio 5
