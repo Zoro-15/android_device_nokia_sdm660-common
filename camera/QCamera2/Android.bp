@@ -1,6 +1,7 @@
 cc_library_headers {
     name: "camera_common_headers",
     export_include_dirs: ["stack/common"],
+    vendor_available: true,
 }
 
 cc_library_shared {

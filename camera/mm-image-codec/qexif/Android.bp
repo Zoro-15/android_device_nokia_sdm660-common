@@ -1,4 +1,5 @@
 cc_library_headers {
     name: "libqexif_headers",
     export_include_dirs: ["."],
+    vendor_available: true,
 }
