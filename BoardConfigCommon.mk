@@ -79,7 +79,11 @@ TARGET_VENDOR_PROP += $(PLATFORM_PATH)/vendor.prop
 
 # Partitions
 BOARD_PRODUCTIMAGE_MINIMAL_PARTITION_RESERVED_SIZE := true
+ifneq ($(wildcard vendor/clover/config/BoardConfigReservedSize.mk),)
+-include vendor/clover/config/BoardConfigReservedSize.mk
+else
 -include vendor/lineage/config/BoardConfigReservedSize.mk
+endif
 BOARD_USES_METADATA_PARTITION := true
 BOARD_USES_RECOVERY_AS_BOOT := true
 BOARD_FLASH_BLOCK_SIZE := 262144
@@ -117,9 +121,17 @@ BOARD_ROOT_EXTRA_SYMLINKS := \
     /vendor/firmware_mnt:/firmware
 
 # SELinux
-include device/lineage/sepolicy/libion/sepolicy.mk
+ifneq ($(wildcard device/clover/sepolicy/libion/sepolicy.mk),)
+-include device/clover/sepolicy/libion/sepolicy.mk
+else
+-include device/lineage/sepolicy/libion/sepolicy.mk
+endif
 include device/qcom/sepolicy-legacy-um/SEPolicy.mk
-include device/lineage/sepolicy/libperfmgr/sepolicy.mk
+ifneq ($(wildcard device/clover/sepolicy/libperfmgr/sepolicy.mk),)
+-include device/clover/sepolicy/libperfmgr/sepolicy.mk
+else
+-include device/lineage/sepolicy/libperfmgr/sepolicy.mk
+endif
 BOARD_VENDOR_SEPOLICY_DIRS += $(PLATFORM_PATH)/sepolicy/vendor
 
 # Vendor Security Patch Level
