@@ -307,5 +307,13 @@ PRODUCT_PACKAGES += \
     wpa_supplicant \
     wpa_supplicant.conf
 
+# Compile critical interactive apps with full AOT machine code
+PRODUCT_DEXPREOPT_SPEED_APPS += \
+    Launcher3QuickStep \
+    Settings \
+    ExactCalculator \
+    Dialer \
+    LatinIME
+
 # Inherit vendor makefiles
 $(call inherit-product, vendor/nokia/sdm660-common/sdm660-common-vendor.mk)
