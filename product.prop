@@ -14,7 +14,7 @@ ro.lmk.thrashing_limit_decay=50
 ro.lmk.psi_partial_stall_ms=70
 ro.lmk.psi_complete_stall_ms=700
 ro.lmk.swap_util_max=90
-ro.lmk.swap_free_low_percentage=15
+ro.lmk.swap_free_low_percentage=10
 
 # SurfaceFlinger Blur Elimination (Treble product namespace)
 persist.sys.sf.disable_blurs=1

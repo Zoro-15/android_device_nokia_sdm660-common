@@ -144,9 +144,6 @@ ro.crypto.volume.filenames_mode=aes-256-cts
 # Incremental FS
 ro.incremental.enable=true
 
-# Perf
-ro.vendor.extension_library=libqti-perfd-client.so
-
 # Radio
 persist.vendor.radio.enableadvancedscan=false
 persist.vendor.radio.apm_sim_not_pwdn=1
